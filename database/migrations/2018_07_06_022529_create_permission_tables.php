@@ -21,6 +21,9 @@ class CreatePermissionTables extends Migration
             $table->string('guard_name');
             $table->integer('pid')->default(0)->comment('父id');
             $table->string('url')->default('')->comment('导航跳转地址');
+            $table->string('route')->default('')->comment('路由名称');
+            $table->integer('sort')->default(0)->comment('排序');
+            $table->string('icon')->default('fa-tasks')->comment('导航icon');
             $table->tinyInteger('is_nav')->comment('是否为导航，0否 1是');
             $table->timestamps();
         });

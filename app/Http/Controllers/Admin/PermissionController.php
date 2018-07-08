@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class PermissionController extends BaseController
 {
+
+    protected $permission = [];
+
     /**
      * Display a listing of the resource.
      *
@@ -15,19 +18,28 @@ class PermissionController extends BaseController
      */
     public function index()
     {
-        //
-        $permissions = Permission::all();//dd($permissions);die;
-        return view('admin.permission.index',['permissions']);
+        $permissionsAll = Permission::orderBy('sort','desc')->get();
+        $permissions = make_tree_with_namepre($permissionsAll);
+        $a = $this->getPermission($permissions);//dd($a);die;
+
+
+        return view('admin.permission.index',['permissions'=>$a]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.permission.create');
+        //$permission = Permission::create(['name' => '修改权限-执行','pid'=>3,'route'=>'permission.update','is_nav'=>0,'icon'=>'']);dd($permission);die;
+        $all = Permission::orderBy('sort','desc')->get();
+
+        $permission = make_option_tree_for_select($all,$request->pid);//dd($a);die;
+
+        return view('admin.permission.create',['permission'=>$permission]);
     }
 
     /**
@@ -38,8 +50,28 @@ class PermissionController extends BaseController
      */
     public function store(Request $request)
     {
-        $permission = Permission::create(['name' => '学校管理','pid'=>0,'url'=>'school/index','is_nav'=>1]);
-        dd($permission);die;
+        $this->validate($request, [
+            'name' => ['required','unique:permissions'],
+        ]);
+
+        $create = [
+            'name' => $request->name,
+            'pid' => $request->pid ? : 0,
+            'url' => $request->url ? : '',
+            'route' => $request->route ? : '',
+            'icon' => $request->icon ? : 'fa-retweet',
+            'sort' => $request->sort ? : 0,
+            'is_nav' => $request->is_nav ? 1 : 0,
+        ];
+
+        $permission = Permission::create($create);
+
+
+        if($permission){
+            return success('添加成功','permission');
+        }else{
+            return error('网络异常');
+        }
     }
 
     /**
@@ -59,9 +91,16 @@ class PermissionController extends BaseController
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function edit(Permission $permission)
+    public function edit($id)
     {
         //
+        $data = Permission::find($id);
+
+        $all = Permission::orderBy('sort','desc')->get();
+
+        $permission = make_option_tree_for_select($all,$data['pid']);
+
+        return view('admin.permission.edit',['data'=>$data,'permission'=>$permission]);
     }
 
     /**
@@ -74,6 +113,24 @@ class PermissionController extends BaseController
     public function update(Request $request, Permission $permission)
     {
         //
+        $this->validate($request, [
+            'name' => ['required'],
+        ]);
+        $update = [
+            'name' => $request->name,
+            'pid' => $request->pid ? : 0,
+            'url' => $request->url ? : '',
+            'route' => $request->route ? : '',
+            'icon' => $request->icon ? : 'fa-retweet',
+            'sort' => $request->sort ? : 0,
+            'is_nav' => $request->is_nav ? 1 : 0,
+        ];
+        $permission = Permission::where(['id'=>$request->id])->update($update);
+        if($permission){
+            return success('修改成功','permission');
+        }else{
+            return error('网络异常');
+        }
     }
 
     /**
@@ -82,8 +139,47 @@ class PermissionController extends BaseController
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
+    public function destroy(Permission $permission,$id)
     {
         //
+        $permission = Permission::destroy($id);
+        if($permission){
+            return success('删除成功','permission');
+        }else{
+            return error('网络异常');
+        }
+    }
+
+    /**
+     * 排序
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function sort(Request $request)
+    {
+        $permission = Permission::where(['id'=>$request->id])->update(['sort'=>$request->sort]);
+        if($permission){
+            return $this->returnAjax('修改成功');
+        }else{
+            return $this->returnAjax('网络异常',40502);
+        }
+
+    }
+
+    private function getPermission($data)
+    {
+        foreach ($data as $k => $v) {
+            //若$v仍为数组 则调用自身
+            if (isset($v['children']) && $v['children']){
+                $this -> permission[] = $v;
+                $this->getPermission($v['children']);
+
+            }else{
+                $this -> permission[] = $v;
+            }
+        }
+        return $this -> permission;
+
     }
 }

@@ -11,12 +11,11 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::domain(config('route.domain_admin'))->group(function () {
+    Route::get('/', 'Admin\IndexController@index')->name('index');
 
-Route::domain('admin.witschool.test')->group(function () {
-    Route::get('/', 'Admin\IndexController@index')->name('admin');
+    //提示页面
+    Route::get('prompt','Admin\PromptController@index')->name('prompt');
 
     //登陆
     Route::get('login', 'Admin\LoginController@showLoginForm')->name('login');
@@ -36,8 +35,19 @@ Route::domain('admin.witschool.test')->group(function () {
     Route::post('logout', 'Admin\LoginController@logout')->name('logout');
 
     //权限管理
-    Route::get('permission/index', 'Admin\PermissionController@index');
-    Route::get('permission/create', 'Admin\PermissionController@create')->name('permission.create');
+    Route::get('permission', 'Admin\PermissionController@index')->name('permission');
+
+    Route::get('permission/create/{pid?}', 'Admin\PermissionController@create')->name('permission.create');
+    Route::post('permission/store', 'Admin\PermissionController@store')->name('permission.store');
+
+    Route::get('permission/edit/{id}', 'Admin\PermissionController@edit')->name('permission.edit');
+    Route::post('permission/update', 'Admin\PermissionController@update')->name('permission.update');
+    Route::post('permission/sort', 'Admin\PermissionController@sort')->name('permission.sort');
+
+    Route::get('permission/destroy/{id}', 'Admin\PermissionController@destroy')->name('permission.destroy');
+
+    //管理员管理
+    Route::get('/admin', 'Admin\AdminController@index')->name('admin');
 
 });
 

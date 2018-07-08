@@ -30,9 +30,11 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="{{route('permission.store')}}">
+                    <form class="form-horizontal" method="POST" action="{{route('permission.update')}}">
 
                         {{ csrf_field() }}
+
+                        <input type="hidden" name="id" value="{{$data['id']}}">
 
                         <div class="box-body">
                             <div class="form-group">
@@ -48,7 +50,7 @@
                                 <label for="name" class="col-sm-2 control-label">权限名称</label>
 
                                 <div class="col-sm-8">
-                                    <input id="name" type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="名称">
+                                    <input id="name" type="text" name="name" class="form-control" value="{{ $data['name']?:old('name') }}" placeholder="名称">
                                     @if ($errors->has('name'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -60,28 +62,28 @@
                                 <label for="inputPassword3" class="col-sm-2 control-label">权限路由</label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" name="route" class="form-control" placeholder="路由别名">
+                                    <input type="text" name="route" class="form-control" placeholder="路由别名" value="{{$data['route']}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-2 control-label">图标</label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" name="icon" class="form-control" placeholder="icon">
+                                    <input type="text" name="icon" class="form-control" placeholder="icon" value="{{$data['icon']}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-2 control-label">排序</label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" name="sort" class="form-control" placeholder="0">
+                                    <input type="text" name="sort" class="form-control" placeholder="0" value="{{$data['sort']}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="is_nav" class="flat-red">
+                                            <input type="checkbox" name="is_nav" class="flat-red" @if($data['is_nav']) checked @endif>
                                             是否在导航中显示
                                         </label>
                                     </div>

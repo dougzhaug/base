@@ -17,7 +17,7 @@
 
 Auth::routes();
 
-Route::domain('home.witschool.test')->group(function () {
+Route::domain(config('route.domain_home'))->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 });
 
