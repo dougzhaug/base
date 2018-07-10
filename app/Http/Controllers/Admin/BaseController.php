@@ -16,6 +16,7 @@ class BaseController extends Controller
     {
         $this->middleware('auth:admin');
         $this->getNav();
+        $this->setLayout();
     }
 
     /**
@@ -47,5 +48,11 @@ class BaseController extends Controller
     {
         $code = $code ? : 0;
         return ['code'=>$code,'msg'=>$msg,'data'=>$data];
+    }
+
+    public function setLayout($layout=false)
+    {
+        $layout = $layout?:'admin.layouts.fixed';
+        View::share('layout',trim($layout));
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.fixed')
+@extends($layout)
 
 @section('head')
     <!-- Select2 -->
@@ -8,18 +8,6 @@
 @endsection
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            权限管理
-            {{--<small>13 new messages</small>--}}
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li><a href="{{url('permission')}}"> 权限管理</a></li>
-            <li class="active">添加权限</li>
-        </ol>
-    </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="row">

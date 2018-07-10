@@ -1,17 +1,6 @@
-@extends('admin.layouts.fixed')
+@extends($layout)
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            权限管理
-            <small>13 new messages</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li class="active">权限管理</li>
-        </ol>
-    </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="row">
@@ -39,10 +28,10 @@
                                 <th>ID</th>
                                 <th>名称</th>
                                 <th>PID</th>
-                                <th>链接</th>
+                                <th>路由名称</th>
                                 <th>图标</th>
                                 <th width="120">排序</th>
-                                <th>是否为菜单</th>
+                                <th>是否为导航</th>
                                 <th>操作</th>
                             </tr>
                             @foreach($permissions as $k=>$v)
@@ -50,7 +39,7 @@
                                     <td>{{$v['id']}}</td>
                                     <td>{{$v['name']}}</td>
                                     <td>{{$v['pid']}}</td>
-                                    <td>{{$v['url']}}</td>
+                                    <td>{{$v['route']}}</td>
                                     <td><i class="fa {{$v['icon']}}"></i> {{$v['icon']}}</td>
                                     <td><div class="input-group input-group-sm">
                                             <input type="text" class="form-control" value="{{$v['sort']}}">

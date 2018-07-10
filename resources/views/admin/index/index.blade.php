@@ -1,4 +1,4 @@
-@extends('admin.layouts.fixed')
+@extends($layout)
 
 @section('content')
     <section class="content">
