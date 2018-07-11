@@ -32,7 +32,7 @@ Route::domain(config('route.domain_admin'))->group(function () {
     Route::post('password/reset', 'Admin\ResetPasswordController@reset');
 
     //登出
-    Route::post('logout', 'Admin\LoginController@logout')->name('logout');
+    Route::get('logout', 'Admin\LoginController@logout')->name('logout');
 
     //权限管理
     Route::get('permission', 'Admin\PermissionController@index')->name('permission');
@@ -48,6 +48,9 @@ Route::domain(config('route.domain_admin'))->group(function () {
 
     //管理员管理
     Route::get('/admin', 'Admin\AdminController@index')->name('admin');
+    Route::post('/admin', 'Admin\AdminController@index')->name('admin');
+    Route::get('/admin/create', 'Admin\AdminController@create')->name('admin.create');
+    Route::post('/admin/store', 'Admin\AdminController@store')->name('admin.store');
 
 });
 

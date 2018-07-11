@@ -23,7 +23,7 @@
     </section>
 @endsection
 
-@section('footer')
+@push('footer')
     <script type="text/javascript">
         $(function(){
             //循环倒计时，并跳转
@@ -48,4 +48,4 @@
         });
 
     </script>
-@endsection
+@endpush

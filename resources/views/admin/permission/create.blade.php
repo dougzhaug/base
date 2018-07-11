@@ -1,11 +1,11 @@
 @extends($layout)
 
-@section('head')
+@push('head')
     <!-- Select2 -->
     <link rel="stylesheet" href="{{admin_asset('bower_components/select2/dist/css/select2.min.css')}}">
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="{{admin_asset('plugins/iCheck/all.css')}}">
-@endsection
+@endpush
 
 @section('content')
     <!-- Main content -->
@@ -24,8 +24,8 @@
 
                         <div class="box-body">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">父节点</label>
-                                <div class="col-sm-8">
+                                <label class="col-sm-3 control-label">父节点</label>
+                                <div class="col-sm-6">
                                     <select name="pid" class="form-control select2">
                                         <option value="0" data-depth="1" data-ancestor_ids="">顶级</option>
                                         {!!$permission!!}
@@ -33,10 +33,10 @@
                                 </div>
                             </div>
                             <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
-                                <label for="name" class="col-sm-2 control-label">权限名称</label>
+                                <label for="name" class="col-sm-3 control-label">权限名称</label>
 
-                                <div class="col-sm-8">
-                                    <input id="name" type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="名称">
+                                <div class="col-sm-6">
+                                    <input id="name" type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="名称" required>
                                     @if ($errors->has('name'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -45,28 +45,28 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">权限路由</label>
+                                <label for="inputPassword3" class="col-sm-3 control-label">权限路由</label>
 
-                                <div class="col-sm-8">
+                                <div class="col-sm-6">
                                     <input type="text" name="route" class="form-control" placeholder="路由别名">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">图标</label>
+                                <label for="inputPassword3" class="col-sm-3 control-label">图标</label>
 
-                                <div class="col-sm-8">
+                                <div class="col-sm-6">
                                     <input type="text" name="icon" class="form-control" placeholder="icon">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">排序</label>
+                                <label for="inputPassword3" class="col-sm-3 control-label">排序</label>
 
-                                <div class="col-sm-8">
+                                <div class="col-sm-6">
                                     <input type="text" name="sort" class="form-control" placeholder="0">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
+                                <div class="col-sm-offset-3 col-sm-9">
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" name="is_nav" class="flat-red">
@@ -91,7 +91,7 @@
     </section>
 @endsection
 
-@section('footer')
+@push('footer')
     <!-- Select2 -->
     <script src="{{admin_asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
     <!-- iCheck 1.0.1 -->
@@ -108,4 +108,4 @@
             })
         })
     </script>
-@endsection
+@endpush

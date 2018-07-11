@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Validator;
 
 class BaseController extends Controller
 {
@@ -15,8 +16,9 @@ class BaseController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->getNav();
         $this->setLayout();
+        $this->getNav();
+
     }
 
     /**
@@ -24,11 +26,13 @@ class BaseController extends Controller
      */
     private function getNav()
     {
-        $route = \Request::route()->getName();  //获取当前路由别名
+        $route = FacadesRequest::route()->getName();  //获取当前路由别名
 //        $url = \Request::getRequestUri();     //获取当前路由
 //        $url = substr($url,1,strrpos($url,'?')?strrpos($url,'?')-1:100); //dd($url);die;
         $permission = Permission::where(['route'=>$route])->first();
-
+        if(!$permission){   //当前路由不存在
+            return error('路由异常');
+        }
         $permissionAll = Permission::where(['is_nav'=>1])->orderBy('sort','desc')->get();
         $nav = make_li_tree_for_ul($permissionAll,$permission->id,$permission->pid);
         $nav = substr($nav,26,-5);
@@ -50,9 +54,25 @@ class BaseController extends Controller
         return ['code'=>$code,'msg'=>$msg,'data'=>$data];
     }
 
-    public function setLayout($layout=false)
+    /**
+     * 设置模板类型
+     *
+     * @param $layout
+     */
+    protected function setLayout($layout=false)
     {
-        $layout = $layout?:'admin.layouts.fixed';
-        View::share('layout',trim($layout));
+        View::share('layout',$layout ? trim($layout) : 'admin.layouts.fixed');
+    }
+
+    /**
+     * 验证器
+     *
+     * @param $data
+     * @param $rule
+     * @return mixed
+     */
+    protected function validator($data,$rule)
+    {
+        return Validator::make($data, $rule)->validate();
     }
 }

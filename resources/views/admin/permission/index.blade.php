@@ -72,7 +72,7 @@
     </section>
 @endsection
 
-@section('footer')
+@push('footer')
     <script>
         /***修改排序请求***/
         $('.edit-sort').on('click',function(){
@@ -99,5 +99,5 @@
             })
         })
     </script>
-@endsection
+@endpush
 

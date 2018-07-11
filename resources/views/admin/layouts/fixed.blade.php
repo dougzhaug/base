@@ -16,15 +16,14 @@
     <link rel="stylesheet" href="{{admin_asset('bower_components/font-awesome/css/font-awesome.min.css')}}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{admin_asset('bower_components/Ionicons/css/ionicons.min.css')}}">
+
+    @stack('head')
+
     <!-- Theme style -->
     <link rel="stylesheet" href="{{admin_asset('dist/css/AdminLTE.min.css')}}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{admin_asset('dist/css/skins/_all-skins.min.css')}}">
-
-    @section('head')
-        {{--头部资源--}}
-    @show
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -181,7 +180,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{{route('logout')}}" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -226,7 +225,11 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
 
-                {!! $nav !!}
+                @auth
+                    @isset($nav)
+                        {!! $nav !!}
+                    @endisset
+                @endauth
 
                 <li class="treeview">
                     <a href="#">
@@ -462,7 +465,7 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 2.4.0
         </div>
-        <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+        <strong>Copyright &copy; 2017-2018 <a href="http://www.spen.vip" target="_blank">Spen</a>.</strong> All rights
         reserved.
     </footer>
 
@@ -666,17 +669,15 @@
 <script src="{{admin_asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{admin_asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+
+@stack('footer')
+
 <!-- SlimScroll -->
 <script src="{{admin_asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{admin_asset('bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{admin_asset('dist/js/adminlte.min.js')}}"></script>
-
-@section('footer')
-    {{--页脚资源--}}
-@show
-
 <!-- AdminLTE for demo purposes -->
 <script src="{{admin_asset('dist/js/demo.js')}}"></script>
 </body>
