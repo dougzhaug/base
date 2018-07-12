@@ -117,8 +117,10 @@
                 serverSide: true,                   //开启服务器模式
                 ajax: {                             //AJAX请求设置
                     url:'{{route('admin')}}',
-                    type: 'POST'
+                    type: 'POST',
+                    data:{id:11,name:'张三'},        //额外参数
                 },
+
                 columns: [
                     { data: 'id' },
                     { data: 'name' },
@@ -131,7 +133,9 @@
                 searching  : false,                 //搜索
                 ordering   : true,                  //排序
                 info        : true,                 //左下角信息
-                autoWidth   : false                 //宽度自适应
+                autoWidth   : false,                //宽度自适应
+                aaSorting: [[1, "asc"]],            //默认排序
+                aoColumnDefs: [ { "bSortable": false, "aTargets": [ 0 , 2] }],      //禁止那些列不可以排序
             })
         })
     </script>

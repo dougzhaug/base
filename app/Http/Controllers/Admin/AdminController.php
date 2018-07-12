@@ -12,13 +12,21 @@ class AdminController extends BaseController
     public function index(Request $request)
     {
         if($request->isMethod('post')){
-            return [
-                'draw'=>intval($request->draw),
-                'recordsTotal' => 100,
-                'recordsFiltered' => 98,
-                'data' => Admin::all(),
-                //'error' => '错误提示',
-            ];
+            $columns = $request->columns;
+            $order_column = 'id';
+            $order_dir = 'desc';
+
+            if($request->order){
+                $order = $request->order[0];
+                $order_column = $columns[$order['column']]['data'];
+                $order_dir = $order['dir'];
+            }
+
+            $data = Admin::where([])->orderBy($order_column,$order_dir)->paginate($request->length)->toArray();
+            $data['draw'] =  intval($request->draw);
+            $data['recordsTotal'] =  $data['total'];
+            $data['recordsFiltered'] =  $data['total'];
+            return $data;
         }
         return view('admin.admin.index');
     }
