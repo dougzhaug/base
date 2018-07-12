@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="box-header">
-                        <from class="form-horizontal" method="POST" action="{{route('admin')}}">
+                        <form id="formSearch" class="form-horizontal" method="POST" action="{{route('admin')}}">
 
                             <div class="input-group margin col-sm-2" style="float:left;margin: 0 0 0 10px;">
                                 <div class="input-group-btn">
@@ -35,7 +35,7 @@
                                     </ul>
                                 </div>
                                 <!-- /btn-group -->
-                                <input type="text" class="form-control">
+                                <input type="text" name="keyword" class="form-control" value="222">
                             </div>
 
                             <div class="input-group margin col-sm-2" style="float:left;margin: 0 0 0 10px;">
@@ -58,12 +58,12 @@
                             </div>
 
                             <div class="col-sm-2">
-                                <input id="name" type="text" name="name" class="form-control" placeholder="用户名">
+                                <input id="name" type="text" name="name" class="form-control" placeholder="用户名" value="22333">
                             </div>
                             <div class="col-sm-1">
-                                <input type="submit" class="btn btn-block btn-info" value="查询">
+                                <input type="submit" id="searchBtn" class="btn btn-block btn-info" value="查询">
                             </div>
-                        </from>
+                        </form>
                     </div>
 
                     <!-- /.box-header -->
@@ -109,16 +109,22 @@
     <script src="{{admin_asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 
     <script>
-        $(function () {
-            $.ajaxSetup({
-                headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
-            });
-            $('#tables').DataTable({
+
+
+
+        // $(function () {
+            {{--$.ajaxSetup({--}}
+                {{--headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }--}}
+            {{--});--}}
+
+            var tables = $('#tables').DataTable({
+
                 serverSide: true,                   //开启服务器模式
                 ajax: {                             //AJAX请求设置
                     url:'{{route('admin')}}',
                     type: 'POST',
-                    data:{id:11,name:'张三'},        //额外参数
+                    data: $('#formSearch').serializeArray(),        //额外参数
+                    headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                 },
 
                 columns: [
@@ -134,9 +140,27 @@
                 ordering   : true,                  //排序
                 info        : true,                 //左下角信息
                 autoWidth   : false,                //宽度自适应
-                aaSorting: [[1, "asc"]],            //默认排序
+                aaSorting: [[0, "asc"]],            //默认排序
                 aoColumnDefs: [ { "bSortable": false, "aTargets": [ 0 , 2] }],      //禁止那些列不可以排序
+                language    : {
+                    processing: "数据加载中...",
+                    info: "显示第 _START_ 至 _END_ 条，共 _TOTAL_ 条记录",
+                    infoEmpty: "暂无数据",
+                    lengthMenu: "每页显示 _MENU_ 条记录",
+                    paginate: {
+                        first: "首页",
+                        previous: "上一页",
+                        next: "下一页",
+                        last: "最后一页"
+                    }
+                }
             })
-        })
+        // })
+
+        // 搜索
+        $("#searchBtn").click(function(){
+            tables.draw();
+        });
+
     </script>
 @endpush

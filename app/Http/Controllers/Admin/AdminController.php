@@ -13,20 +13,34 @@ class AdminController extends BaseController
     {
         if($request->isMethod('post')){
             $columns = $request->columns;
-            $order_column = 'id';
-            $order_dir = 'desc';
+
+            $builder = Admin::select(['id','name','phone','email','created_at']);
+
+            /* where start*/
+
+            if($request->keyword){
+                $builder->where('name','like','%'.$request->name.'%');
+            }
+
+            /* where end */
+
+            $total = $builder->count();
 
             if($request->order){
                 $order = $request->order[0];
                 $order_column = $columns[$order['column']]['data'];
                 $order_dir = $order['dir'];
+                $builder->orderBy($order_column,$order_dir);
             }
 
-            $data = Admin::where([])->orderBy($order_column,$order_dir)->paginate($request->length)->toArray();
-            $data['draw'] =  intval($request->draw);
-            $data['recordsTotal'] =  $data['total'];
-            $data['recordsFiltered'] =  $data['total'];
-            return $data;
+            $data = $builder->offset($request->start)->take($request->length)->get()->toArray();
+
+            return [
+                'draw' => intval($request->draw),
+                'recordsTotal' => $total,
+                'recordsFiltered' => $total,
+                'data' => $data,
+            ];
         }
         return view('admin.admin.index');
     }
