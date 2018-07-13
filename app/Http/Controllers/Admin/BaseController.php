@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\Validator;
 class BaseController extends Controller
 {
     protected $admin;
-
-    public function __construct()
+    protected $request;
+    public function __construct(Request $request)
     {
+        $this->request = $request;
         $this->middleware('auth:admin');
         $this->setLayout();
         $this->getNav();
@@ -74,5 +75,10 @@ class BaseController extends Controller
     protected function validator($data,$rule)
     {
         return Validator::make($data, $rule)->validate();
+    }
+
+    protected function setActionField($fields)
+    {
+        View::share('actionField',$fields);
     }
 }

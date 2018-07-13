@@ -12,6 +12,7 @@ class AdminController extends BaseController
     public function index(Request $request)
     {
         if($request->isMethod('post')){
+
             $columns = $request->columns;
 
             $builder = Admin::select(['id','name','phone','email','created_at']);
@@ -19,11 +20,12 @@ class AdminController extends BaseController
             /* where start*/
 
             if($request->keyword){
-                $builder->where('name','like','%'.$request->name.'%');
+                $builder->where($request->action_field,'like','%'.$request->keyword.'%');
             }
 
             /* where end */
 
+            //获取总条数
             $total = $builder->count();
 
             if($request->order){
@@ -42,6 +44,9 @@ class AdminController extends BaseController
                 'data' => $data,
             ];
         }
+
+        $actionField = ['name'=>'姓名','phone'=>'手机号','email'=>'邮箱'];
+        $this->setActionField($actionField);
         return view('admin.admin.index');
     }
 
