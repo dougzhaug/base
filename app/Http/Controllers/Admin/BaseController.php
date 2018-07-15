@@ -19,6 +19,7 @@ class BaseController extends Controller
         $this->middleware('auth:admin');
         $this->setLayout();
         $this->getNav();
+        $this->receiveDate();
 
     }
 
@@ -77,8 +78,24 @@ class BaseController extends Controller
         return Validator::make($data, $rule)->validate();
     }
 
+    /**
+     * 设置多功能输入框选项
+     *
+     * @param $fields
+     */
     protected function setActionField($fields)
     {
         View::share('actionField',$fields);
+    }
+
+    /**
+     *
+     */
+    protected function receiveDate()
+    {
+        View::share([
+            'start_date'=> '2018-01-01',
+            'end_date' => '2018-04-02'
+        ]);
     }
 }

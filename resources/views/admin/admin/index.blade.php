@@ -26,7 +26,7 @@
                             </div>
 
                             {{--时间选择器--}}
-                            @include('admin.block.date_range')
+                            @include('admin.block.date_range',['format'=>'YYYY-MM-DD HH:mm:ss'])
 
                             <div class="search-input col-sm-1">
                                 <button type="button" onclick="doSearch()" id="searchBtn" class="btn btn-block btn-info" value="查询">查询</button>
