@@ -89,13 +89,20 @@ class BaseController extends Controller
     }
 
     /**
-     *
+     * 时间查询
      */
     protected function receiveDate()
     {
-        View::share([
-            'start_date'=> '2018-01-01',
-            'end_date' => '2018-04-02'
-        ]);
+        if($date_range = $this->request->date_range){
+            list($start_date,$end_date) = explode(config('daterangepicker.separator'),$date_range);
+
+            $this->request->start_date = $start_date;
+            $this->request->end_date = $end_date;
+
+            View::share([
+                'start_date'=> $start_date,
+                'end_date' => $end_date
+            ]);
+        }
     }
 }

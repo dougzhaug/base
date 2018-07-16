@@ -26,6 +26,6 @@ return [
     |
     */
 
-    'format' => env('DATE_FORMAT', 'YYYY-MM-DD'),
+    'format' => env('DATE_FORMAT', 'YYYY-MM-DD HH:mm:ss'),
 
 ];

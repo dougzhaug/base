@@ -23,10 +23,16 @@ class AdminController extends BaseController
                 $builder->where($request->action_field,'like','%'.$request->keyword.'%');
             }
 
+            if($request->date_range){
+                $builder->whereBetween('created_at',[$request->start_date,$request->end_date]);
+            }
+
             /* where end */
 
             //获取总条数
             $total = $builder->count();
+
+            /* order start */
 
             if($request->order){
                 $order = $request->order[0];
@@ -34,6 +40,8 @@ class AdminController extends BaseController
                 $order_dir = $order['dir'];
                 $builder->orderBy($order_column,$order_dir);
             }
+
+            /* order end */
 
             $data = $builder->offset($request->start)->take($request->length)->get()->toArray();
 
