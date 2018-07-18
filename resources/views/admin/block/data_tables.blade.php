@@ -23,7 +23,7 @@
             url = url ? url : $(tableName).data('url');
 
             var column = [];
-            var defaultSort = [];
+            var defaultSort = [0,'desc'];       //没有默认排序字段时，取第一个
             var target = [];
             $(tableName).children('thead').children('tr').children().map(function (k,v) {
                 /*处理显示字段信息*/

@@ -12,9 +12,36 @@ class RoleController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        if($request->isMethod('post')){
+            $builder = Role::where('guard_name','admin')->orderBy('id','desc')->select(['id','name','guard_name','created_at']);
+
+            /* where start*/
+
+            if($request->keyword){
+                $builder->where($request->action_field,'like','%'.$request->keyword.'%');
+            }
+
+            /* where end */
+
+            //获取总条数
+            $total = $builder->count();
+
+            $data = $builder->offset($request->start)->take($request->length)->get()->toArray();
+
+            return [
+                'draw' => intval($request->draw),
+                'recordsTotal' => $total,
+                'recordsFiltered' => $total,
+                'data' => $data,
+            ];
+        }
+
+        $actionField = ['name'=>'角色名称'];
+        $this->setActionField($actionField);
+        return view('admin.role.index');
     }
 
     /**
