@@ -29,7 +29,7 @@
                 /*处理显示字段信息*/
                 var thName = $(this).data('name');
                 if(thName != undefined){
-                    column.push({data:thName});
+                    column.push({data:thName ? thName : null});
                 }
 
                 /*获取默认排序字段*/
@@ -61,7 +61,18 @@
                 info: true,                         //左下角信息
                 autoWidth: false,                   //宽度自适应
                 aaSorting: [ defaultSort ],         //默认排序
-                aoColumnDefs: [ { "bSortable": false, "aTargets": target }],      //禁止那些列不可以排序
+                aoColumnDefs: [
+                    {
+                    "bSortable": false,
+                    "aTargets": target              //禁止那些列不可以排序
+                    },
+                    {
+                        "targets": -1,
+                        "render": function (data,type,row){
+                            return getButton(data,type,row);
+                        }
+                    }
+                ],
                 language: {
                     processing: "数据加载中...",
                     info: "显示第 _START_ 至 _END_ 条，共 _TOTAL_ 条记录",
@@ -75,11 +86,12 @@
                         last: "最后一页"
                     }
                 }
+
             })
         }
 
         /**
-         * 公共搜索函数
+         * 公共搜索函数 （可重构）
          *
          * @param formName
          */
@@ -103,6 +115,22 @@
             });
 
             return data;
+        }
+
+        /**
+         * 操作栏 (需要重构)
+         *
+         * @param data
+         * @param type
+         * @param row
+         * @returns {string}
+         */
+        function getButton(data,type,row)
+        {
+            var html = '<a href="{{url('role/create')}}" class="btn btn-success btn-xs tables-create"><span class="glyphicon glyphicon-plus"></span>添加</a>';
+            html += '<a href="{{url('role/edit')}}/'+data.id+'" class="btn btn-primary btn-xs tables-edit"><span class="glyphicon glyphicon-edit"></span>编辑</a>';
+            html += '<a href="{{url('role/destroy')}}/'+data.id+'" class="btn btn-danger btn-xs tables-delete"><span class="glyphicon glyphicon-trash"></span>删除</a>';
+            return html;
         }
     </script>
 @endpush

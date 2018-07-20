@@ -34,8 +34,9 @@
                             <tr>
                                 <th data-name="id" data-sort="true">ID</th>
                                 <th data-name="name">角色名称</th>
-                                <th data-name="phone">描述</th>
+                                <th data-name="depict">描述</th>
                                 <th data-name="created_at">创建时间</th>
+                                <th data-name="">操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -47,9 +48,10 @@
                             <tfoot>
                             <tr>
                                 <th>ID</th>
-                                <th>姓名</th>
-                                <th>手机号码</th>
+                                <th>角色名称</th>
+                                <th>描述</th>
                                 <th>创建时间</th>
+                                <th>操作</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -69,5 +71,34 @@
     <script>
         //DataTables 初始化
         var tables = DataTableLoad();
+
+
+        /**
+         * 操作按钮案例（这里的href最好用url，因为route会报错）
+         */
+        function getButton(data,type,row)
+        {
+            var html = '<a href="{{url('role/create')}}?id='+data.id+'&name='+ data.name +'" class="btn btn-success btn-xs tables-create"><span class="glyphicon glyphicon-plus"></span>添加</a>';
+                html += '<a href="javascript:void(0);" data-id="'+ data.id +'" data-name="'+ data.name +'" class="btn btn-primary btn-xs tables-edit"><span class="glyphicon glyphicon-edit"></span>编辑</a>';
+                html += '<a href="javascript:void(0);" data-id="'+ data.created_at +'" class="btn btn-danger btn-xs tables-delete"><span class="glyphicon glyphicon-trash"></span>删除</a>';
+            return html;
+        }
+
+        /**
+         * 修改 （自定义）
+         */
+        $('body').on('click','.tables-edit',function(){
+            var id = $(this).data('id')
+            var name = $(this).data('name')
+            alert(id+name);
+        })
+
+        /**
+         * 删除 （自定义）
+         */
+        $('body').on('click','.tables-delete',function(){
+            var id = $(this).data('id')
+            alert(id);
+        })
     </script>
 @endpush

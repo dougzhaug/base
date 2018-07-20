@@ -16,7 +16,7 @@ class RoleController extends BaseController
     {
         //
         if($request->isMethod('post')){
-            $builder = Role::where('guard_name','admin')->orderBy('id','desc')->select(['id','name','guard_name','created_at']);
+            $builder = Role::where('guard_name','admin')->orderBy('id','desc')->select(['id','name','guard_name','depict','created_at']);
 
             /* where start*/
 
@@ -52,6 +52,7 @@ class RoleController extends BaseController
     public function create()
     {
         //
+        return view('admin.role.create');
     }
 
     /**
@@ -63,6 +64,23 @@ class RoleController extends BaseController
     public function store(Request $request)
     {
         //
+        $this->validate($request, [
+            'name' => ['required','unique:roles'],
+        ]);
+
+        $create = [
+            'name' => $request->name,
+            'depict' => $request->depict ? : '',
+        ];
+
+        $permission = Role::create($create);
+
+
+        if($permission){
+            return success('添加成功','role');
+        }else{
+            return error('网络异常');
+        }
     }
 
     /**
@@ -79,12 +97,15 @@ class RoleController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit(Request $request,Role $role)
     {
         //
+        $role = $role->where(['id'=>$request->id])->get();
+        return view('admin.role.edit',['role'=>$role]);
     }
 
     /**
