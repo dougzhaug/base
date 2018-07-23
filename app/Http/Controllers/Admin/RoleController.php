@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -73,10 +74,10 @@ class RoleController extends BaseController
             'depict' => $request->depict ? : '',
         ];
 
-        $permission = Role::create($create);
+        $role = Role::create($create);
 
 
-        if($permission){
+        if($role){
             return success('添加成功','role');
         }else{
             return error('网络异常');
@@ -129,5 +130,16 @@ class RoleController extends BaseController
     public function destroy(Role $role)
     {
         //
+    }
+
+    /**
+     * 分配权限
+     *
+     * @param Request $request
+     */
+    public function assign(Request $request,Role $role)
+    {
+        $permissions = Permission::all();
+        return view('admin.role.assign',['permissions'=>$permissions]);
     }
 }

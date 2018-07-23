@@ -72,13 +72,12 @@
         //DataTables 初始化
         var tables = DataTableLoad();
 
-
         /**
          * 操作按钮案例（这里的href最好用url，因为route会报错）
          */
         function getButton(data,type,row)
         {
-            var html = '<a href="{{url('role/create')}}?id='+data.id+'&name='+ data.name +'" class="btn btn-success btn-xs tables-create"><span class="glyphicon glyphicon-plus"></span>添加</a>';
+            var html = '<a href="{{url('role/assign')}}?id='+data.id+'&name='+ data.name +'" class="btn btn-success btn-xs tables-create"><span class="glyphicon glyphicon-plus"></span>分配权限</a>';
                 html += '<a href="javascript:void(0);" data-id="'+ data.id +'" data-name="'+ data.name +'" class="btn btn-primary btn-xs tables-edit"><span class="glyphicon glyphicon-edit"></span>编辑</a>';
                 html += '<a href="javascript:void(0);" data-id="'+ data.created_at +'" class="btn btn-danger btn-xs tables-delete"><span class="glyphicon glyphicon-trash"></span>删除</a>';
             return html;

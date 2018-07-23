@@ -62,6 +62,8 @@ Route::domain(config('route.domain_admin'))->group(function () {
     Route::post('role/update', 'Admin\RoleController@update')->name('role.update');
 
     Route::get('role/destroy/{id}', 'Admin\RoleController@destroy')->name('role.destroy');
+
+    Route::get('role/assign/{role}','Admin\RoleController@assign')->name('role.assign');
     /*** 角色管理(完) ***/
 
     /*** 权限管理 ***/
