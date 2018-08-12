@@ -1,125 +1,34 @@
 @extends($layout)
 
 @section('content')
-    <div class="row-fluid">
-
-        <div class="span6">
-
-            <div class="portlet box blue">
-
-                <div class="portlet-title">
-
-                    <div class="caption"><i class="icon-comments"></i>Nestable List 1</div>
-
-                    <div class="tools">
-
-                        <a href="javascript:;" class="collapse"></a>
-
-                        <a href="#portlet-config" data-toggle="modal" class="config"></a>
-
-                        <a href="javascript:;" class="reload"></a>
-
-                        <a href="javascript:;" class="remove"></a>
-
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">分配权限</h3>
                     </div>
-
-                </div>
-
-                <div class="portlet-body ">
-
-                    <div class="dd" id="nestable_list_1">
-
-                        <ol class="dd-list">
-
-                            <li class="dd-item" data-id="1">
-
-                                <div class="dd-handle">Item 1</div>
-
-                            </li>
-
-                            <li class="dd-item" data-id="2">
-
-                                <div class="dd-handle">Item 2</div>
-
-                                <ol class="dd-list">
-
-                                    <li class="dd-item" data-id="3">
-
-                                        <div class="dd-handle">Item 3</div>
-
-                                    </li>
-
-                                    <li class="dd-item" data-id="4">
-
-                                        <div class="dd-handle">Item 4</div>
-
-                                    </li>
-
-                                    <li class="dd-item" data-id="5">
-
-                                        <div class="dd-handle">Item 5</div>
-
-                                        <ol class="dd-list">
-
-                                            <li class="dd-item" data-id="6">
-
-                                                <div class="dd-handle">Item 6</div>
-
-                                            </li>
-
-                                            <li class="dd-item" data-id="7">
-
-                                                <div class="dd-handle">Item 7</div>
-
-                                            </li>
-
-                                            <li class="dd-item" data-id="8">
-
-                                                <div class="dd-handle">Item 8</div>
-
-                                            </li>
-
-                                        </ol>
-
-                                    </li>
-
-                                    <li class="dd-item" data-id="9">
-
-                                        <div class="dd-handle">Item 9</div>
-
-                                    </li>
-
-                                    <li class="dd-item" data-id="10">
-
-                                        <div class="dd-handle">Item 10</div>
-
-                                    </li>
-
-                                </ol>
-
-                            </li>
-
-                            <li class="dd-item" data-id="11">
-
-                                <div class="dd-handle">Item 11</div>
-
-                            </li>
-
-                            <li class="dd-item" data-id="12">
-
-                                <div class="dd-handle">Item 12</div>
-
-                            </li>
-
-                        </ol>
-
+                    <div class="box-header ">
                     </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-role" method="POST" action="{{route('role.assign',[1])}}" onsubmit="return getPermissions()">
 
+                        {{ csrf_field() }}
+
+                        {{--DataTables插件--}}
+                        @include('admin.block.js_tree',['name'=>'permissions'])
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-default">取消</button>
+                            <button type="submit" class="btn btn-info pull-right" >提交</button>
+                        </div>
+                    </form>
                 </div>
-
+                <!-- /.box -->
             </div>
-
         </div>
-
-    </div>
+        <!-- /.row -->
+    </section>
 @endsection

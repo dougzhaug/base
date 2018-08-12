@@ -20,7 +20,7 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="{{route('role.store')}}">
+                    <form class="form-horizontal" method="POST" action="{{route('role.store')}}" onsubmit="return getPermissions()">
 
                         {{ csrf_field() }}
 
@@ -46,6 +46,21 @@
                                     @if ($errors->has('depict'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('depict') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group {{ $errors->has('permissions') ? ' has-error' : '' }}" >
+                                <label for="phone" class="col-sm-4 control-label">权限</label>
+                                <div class="col-sm-8" style="padding: 10px; border:1px solid #96c2f1;background:#eff7ff; width: 50%;">
+
+                                    {{--JsTree插件--}}
+                                    @include('admin.block.js_tree',['url'=>route('role.get_permissions'),'name'=>'permissions'])
+
+                                    @if ($errors->has('permissions'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('permissions') }}</strong>
                                     </span>
                                     @endif
                                 </div>

@@ -125,7 +125,7 @@ function make_li_tree_for_ul($arr, $default,$pid, $depth = 0)
 {
     $arr = make_tree($arr);//dd($arr);die;
     if(!function_exists('make_li')){
-        function make_li($arr,$default,$pid)
+        function make_li($arr,$default,$pids)
         {
             $html = '';
             foreach($arr as $t)
@@ -133,6 +133,8 @@ function make_li_tree_for_ul($arr, $default,$pid, $depth = 0)
                 $active = '';
                 if($default == $t['id']){
                     $active = 'active';
+                }elseif(in_array($t['id'],$pids)){
+                    $active = 'active menu-open';
                 }
 
                 $href = '';
@@ -144,11 +146,11 @@ function make_li_tree_for_ul($arr, $default,$pid, $depth = 0)
                     $html .= '<li class="' . $active . '"><a href="' . $href . '"><i class="fa ' . $t['icon'] . '"></i><span>' . $t['name'] . '</span></a></li>';
                 }else{
 
-                    if($pid == $t['id']){
+                    if(in_array($t['id'],$pids)){
                         $active = 'active menu-open';
                     }
                     $html .= '<li class="treeview ' . $active . '"><a href="' . $href . '"><i class="fa ' . $t['icon'] . '"></i> <span>' . $t['name'] . '</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
-                    $html .= make_li($t['children'],$default,$pid);
+                    $html .= make_li($t['children'],$default,$pids);
                     $html = $html.'</li>';
                 }
             }

@@ -31,12 +31,13 @@ class BaseController extends Controller
         $route = FacadesRequest::route()->getName();  //获取当前路由别名
 //        $url = \Request::getRequestUri();     //获取当前路由
 //        $url = substr($url,1,strrpos($url,'?')?strrpos($url,'?')-1:100); //dd($url);die;
-        $permission = Permission::where(['route'=>$route])->first();
+        $permission = Permission::where('route','like','%'.$route.'%')->first();//dd($permission);die;
         if(!$permission){   //当前路由不存在
             return error('路由异常');
         }
         $permissionAll = Permission::where(['is_nav'=>1])->orderBy('sort','desc')->get();
-        $nav = make_li_tree_for_ul($permissionAll,$permission->id,$permission->pid);
+
+        $nav = make_li_tree_for_ul($permissionAll,$permission->id,explode(',',$permission->pids));
         $nav = substr($nav,26,-5);
 
         View::share('nav',rtrim($nav));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -64,20 +65,31 @@ class RoleController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+
         $this->validate($request, [
             'name' => ['required','unique:roles'],
+            'permissions' => ['required'],
         ]);
 
         $create = [
             'name' => $request->name,
             'depict' => $request->depict ? : '',
+            'js_tree_ids' => $request->js_tree_ids,
         ];
 
         $role = Role::create($create);
 
+        if(!$role){
+            return error('网络异常');
+        }
 
-        if($role){
+        $permission_ids = explode(',',$request->permissions) ? : 0;       //选中的权限id  explode(',',"1,10,100,101,203,303,305");
+
+        $permissions = Permission::whereIn('id',$permission_ids)->get();
+
+        $result = $role->syncPermissions($permissions);
+
+        if($result){
             return success('添加成功','role');
         }else{
             return error('网络异常');
@@ -102,10 +114,9 @@ class RoleController extends BaseController
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,Role $role)
+    public function edit(Role $role)
     {
         //
-        $role = $role->where(['id'=>$request->id])->get();
         return view('admin.role.edit',['role'=>$role]);
     }
 
@@ -119,6 +130,34 @@ class RoleController extends BaseController
     public function update(Request $request, Role $role)
     {
         //
+        $this->validate($request, [
+            'name' => ['required'],
+            'permissions' => ['required'],
+        ]);
+
+        $update = [
+            'name' => $request->name,
+            'depict' => $request->depict ? : '',
+            'js_tree_ids' => $request->js_tree_ids,
+        ];
+
+        $res = $role->update($update);
+
+        if(!$res){
+            return error('网络异常');
+        }
+
+        $permission_ids = explode(',',$request->permissions) ? : 0;       //选中的权限id  explode(',',"1,10,100,101,203,303,305");
+
+        $permissions = Permission::whereIn('id',$permission_ids)->get();
+
+        $result = $role->syncPermissions($permissions);
+
+        if($result){
+            return success('编辑成功','role');
+        }else{
+            return error('网络异常');
+        }
     }
 
     /**
@@ -129,17 +168,41 @@ class RoleController extends BaseController
      */
     public function destroy(Role $role)
     {
-        //
+
+        if(!empty($role->users->toArray())){       //如果该角色已经分配了将不能删除
+            return error('该角色已经被分配，请收回后再进行操作');
+        }
+        $result = $role->delete();
+        if($result){
+            return success('编辑成功','role');
+        }else{
+            return error('网络异常');
+        }
     }
 
     /**
-     * 分配权限
+     * 获取权限节点
      *
      * @param Request $request
+     * @param Role $role
+     * @return array
      */
-    public function assign(Request $request,Role $role)
+    public function get_permissions(Request $request,Role $role)
     {
-        $permissions = Permission::all();
-        return view('admin.role.assign',['permissions'=>$permissions]);
+        if($request->ajax()){
+            $permissionAll = Permission::all(['id','name as text','pid','icon']);
+
+            if($role){     //编辑
+                $rolePermissions = explode(',',$role->js_tree_ids);        //获取角色的权限id
+                foreach ($permissionAll as $k=>$v){
+                    if(in_array($v['id'],$rolePermissions)){
+                        $v['state'] = ['selected'=>true];
+                    }
+                }
+            }
+
+            $permissions = make_tree($permissionAll);
+            return $permissions;
+        }
     }
 }

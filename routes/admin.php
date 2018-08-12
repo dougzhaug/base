@@ -58,12 +58,16 @@ Route::domain(config('route.domain_admin'))->group(function () {
 
     Route::get('role/show', 'Admin\RoleController@show')->name('role.show');
 
-    Route::get('role/edit/{id}', 'Admin\RoleController@edit')->name('role.edit');
-    Route::post('role/update', 'Admin\RoleController@update')->name('role.update');
+    Route::get('role/edit/{role}', 'Admin\RoleController@edit')->name('role.edit');
+    Route::post('role/update{role}', 'Admin\RoleController@update')->name('role.update');
 
-    Route::get('role/destroy/{id}', 'Admin\RoleController@destroy')->name('role.destroy');
+    Route::get('role/destroy/{role}', 'Admin\RoleController@destroy')->name('role.destroy');
 
-    Route::get('role/assign/{role}','Admin\RoleController@assign')->name('role.assign');
+//    Route::get('role/assign/{role}','Admin\RoleController@assign')->name('role.assign');
+//    Route::post('role/assign/{role}','Admin\RoleController@assign')->name('role.assign');
+
+    //获取所有的权限节点
+    Route::post('role/get_permissions/{role?}','Admin\RoleController@get_permissions')->name('role.get_permissions');
     /*** 角色管理(完) ***/
 
     /*** 权限管理 ***/

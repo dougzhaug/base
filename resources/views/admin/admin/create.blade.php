@@ -90,15 +90,13 @@
                             <div class="form-group">
                                 <label for="permission" class="col-md-4 control-label">分配权限</label>
                                 <div class="col-md-4">
-                                    <select id="permission" name="permission[]" class="form-control select2" multiple="multiple" data-placeholder="可多选"
+                                    <select id="permissions" name="permissions[]" class="form-control select2" multiple="multiple" data-placeholder="可多选"
                                             style="width: 100%;">
-                                        <option>Alabama</option>
-                                        <option>Alaska</option>
-                                        <option>California</option>
-                                        <option>Delaware</option>
-                                        <option>Tennessee</option>
-                                        <option>Texas</option>
-                                        <option>Washington</option>
+
+                                        @foreach($roles as $k=>$v)
+                                            <option value="{{$v['name']}}">{{$v['name']}}</option>
+                                        @endforeach
+
                                     </select>
                                 </div>
                             </div>

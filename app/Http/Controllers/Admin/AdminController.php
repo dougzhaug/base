@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Models\Role;
 use App\Rules\phone;
 use Illuminate\Http\Request;
 
@@ -60,7 +61,8 @@ class AdminController extends BaseController
 
     public function create()
     {
-        return view('admin.admin.create');
+        $roles = Role::all();
+        return view('admin.admin.create',['roles'=>$roles]);
     }
 
     public function store(Request $request)
@@ -70,6 +72,40 @@ class AdminController extends BaseController
             'phone' => ['required','unique:admins',new phone()],
             'email' => 'string|email|max:255|unique:admins',
             'password' => 'required|string|min:6',
+            'permissions' => 'required',
         ]);
+
+        $create = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ];
+
+        $admin = Admin::create($create);
+
+        if(!$admin){
+            return error('网络异常');
+        }
+
+        $result = $admin->assignRole($request->permissions);
+
+        if($result){
+            return success('添加成功','admin');
+        }else{
+            return error('网络异常');
+        }
+
+    }
+
+    /**
+     * 展示页面
+     *
+     * @param Admin $admin
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(Admin $admin)
+    {
+        return view('admin.admin.show');
     }
 }

@@ -20,6 +20,7 @@ class CreatePermissionTables extends Migration
             $table->string('name');
             $table->string('guard_name');
             $table->integer('pid')->default(0)->comment('父id');
+            $table->text('pids')->default('')->comment('所有父id');
             $table->string('url')->default('')->comment('导航跳转地址');
             $table->string('route')->default('')->comment('路由名称');
             $table->integer('sort')->default(0)->comment('排序');
@@ -33,6 +34,7 @@ class CreatePermissionTables extends Migration
             $table->string('name');
             $table->string('guard_name');
             $table->string('depict')->comment('描述');
+            $table->text('js_tree_ids')->comment('存储生成jsTree结构的数据');
             $table->timestamps();
         });
 
