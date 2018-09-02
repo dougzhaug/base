@@ -7,7 +7,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">权限列表</h3>
+                        {{--<h3 class="box-title">权限列表</h3>--}}
 
                         <div class="box-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
@@ -40,7 +40,7 @@
                                     <td>{{$v['name']}}</td>
                                     <td>{{$v['pid']}}</td>
                                     <td>{{$v['route']}}</td>
-                                    <td><i class="fa {{$v['icon']}}"></i> {{$v['icon']}}</td>
+                                    <td><i class="{{$v['icon']}}"></i> {{$v['icon']}}</td>
                                     <td><div class="input-group input-group-sm">
                                             <input type="text" class="form-control" value="{{$v['sort']}}">
                                             <span class="input-group-btn">

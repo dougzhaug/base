@@ -20,7 +20,7 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="{{route('admin.store')}}">
+                    <form class="form-horizontal" method="POST" action="{{route('admin.update',[$admin['id']])}}">
 
                         {{ csrf_field() }}
 
@@ -38,7 +38,7 @@
                                 <label for="name" class="col-sm-4 control-label">用户名</label>
 
                                 <div class="col-sm-4">
-                                    <input id="name" type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="名称" required>
+                                    <input id="name" type="text" name="name" class="form-control" value="{{$admin['name'] or old('name') }}" placeholder="名称" required>
                                     @if ($errors->has('name'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -51,7 +51,7 @@
                                 <label for="phone" class="col-sm-4 control-label">手机号</label>
 
                                 <div class="col-sm-4">
-                                    <input id="phone" type="text" name="phone" class="form-control" value="{{ old('phone') }}" placeholder="手机号" required>
+                                    <input id="phone" type="text" name="phone" class="form-control" value="{{$admin['phone'] or old('phone') }}" placeholder="手机号" required>
                                     @if ($errors->has('phone'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('phone') }}</strong>
@@ -64,7 +64,7 @@
                                 <label for="email" class="col-sm-4 control-label">E-mail</label>
 
                                 <div class="col-sm-4">
-                                    <input id="email" type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="电子邮箱">
+                                    <input id="email" type="email" name="email" class="form-control" value="{{$admin['email'] or old('email') }}" placeholder="电子邮箱">
                                     @if ($errors->has('email'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -77,7 +77,7 @@
                                 <label for="password" class="col-md-4 control-label">密码</label>
 
                                 <div class="col-md-4">
-                                    <input id="password" type="password" class="form-control" name="password" required>
+                                    <input id="password" type="password" class="form-control" name="password">
 
                                     @if ($errors->has('password'))
                                         <span class="help-block">
@@ -94,7 +94,7 @@
                                             style="width: 100%;">
 
                                         @foreach($roles as $k=>$v)
-                                            <option value="{{$v['name']}}">{{$v['name']}}</option>
+                                            <option @if(in_array($v['id'],$admin_roles)) selected @endif value="{{$v['name']}}">{{$v['name']}}</option>
                                         @endforeach
 
                                     </select>

@@ -6,16 +6,8 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">角色管理</h3>
-
-                        <div class="box-tools">
-                            <button type="button" href="{{route('role.create')}}" class="btn bg-olive margin">添加角色</button>
-                        </div>
-                    </div>
 
                     <div class="box-header">
-
                         <form id="formSearch" class="form-horizontal">
 
                             {{--多功能输入框--}}
@@ -25,6 +17,10 @@
                                 <button type="button" onclick="doSearch()" id="searchBtn" class="btn btn-block btn-info" value="查询">查询</button>
                             </div>
                         </form>
+
+                        <div class="box-tools">
+                            <button type="button" href="{{route('role.create')}}" class="btn bg-olive margin">添加角色</button>
+                        </div>
                     </div>
 
                     <!-- /.box-header -->
@@ -87,7 +83,7 @@
          */
         $('body').on('click','.tables-edit',function(){
 
-        })
+        });
 
         /**
          * 删除 （自定义）
@@ -96,6 +92,6 @@
             if(!confirm('确认要删除吗')){
                 return false;
             }
-        })
+        });
     </script>
 @endpush

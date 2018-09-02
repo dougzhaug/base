@@ -130,6 +130,9 @@ function make_li_tree_for_ul($arr, $default,$pid, $depth = 0)
             $html = '';
             foreach($arr as $t)
             {
+                if(!$t['is_nav']){
+                    continue;
+                }
                 $active = '';
                 if($default == $t['id']){
                     $active = 'active';

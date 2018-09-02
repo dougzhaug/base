@@ -1,24 +1,12 @@
 @extends($layout)
 
 @section('content')
-    <section class="content-header">
-        <h1>
-            提示！
-            <small></small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li><a href="#">UI</a></li>
-            <li class="active">Modals</li>
-        </ol>
-    </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="callout @if($data['status'] == 'success') callout-success @else callout-danger @endif">
             <h4>@if($data['status'] == 'success') 成功！ @else 失败！ @endif</h4>
             {{$data['message']}}
-            <p>浏览器页面将在<b id="loginTime">{{ $data['wait_time'] }}</b>秒后跳转......<a href="javascript:void(0);" class="jump_now">立即跳转</a> </p>
+            <p>浏览器页面将在<b id="loginTime">{{ $data['wait_time'] }}</b>秒后跳转......<a href="javascript:void(0);" class="jump_now"> 立即跳转</a> </p>
         </div>
     </section>
 @endsection

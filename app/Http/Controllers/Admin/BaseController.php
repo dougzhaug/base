@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -17,25 +18,41 @@ class BaseController extends Controller
     {
         $this->request = $request;
         $this->middleware('auth:admin');
+        $this->middleware(function ($request, $next) {      //使用中间来实现左侧导航自动加载
+            $this->admin =  Auth::user();
+            $this->getNav();
+            return $next($request);
+        });
         $this->setLayout();
-        $this->getNav();
         $this->receiveDate();
-
     }
 
     /**
      * 导航-共享信息
+     *
      */
     private function getNav()
     {
         $route = FacadesRequest::route()->getName();  //获取当前路由别名
-//        $url = \Request::getRequestUri();     //获取当前路由
-//        $url = substr($url,1,strrpos($url,'?')?strrpos($url,'?')-1:100); //dd($url);die;
         $permission = Permission::where('route','like','%'.$route.'%')->first();//dd($permission);die;
         if(!$permission){   //当前路由不存在
             return error('路由异常');
         }
-        $permissionAll = Permission::where(['is_nav'=>1])->orderBy('sort','desc')->get();
+
+        //面包屑导航
+        $this->getBreadcrumb($permission['pids'],$permission['id']);
+
+        if(in_array($this->admin->id,[101])){       //总管理员
+            $permissionAll = Permission::where(['is_nav'=>1])->orderBy('sort','desc')->get();
+        }else{
+            $pAll = $this->admin->getAllPermissions();
+            $permissionAll = [];
+            foreach ($pAll as $v){
+                if($v['is_nav']){
+                    $permissionAll[] = $v;
+                }
+            }
+        }
 
         $nav = make_li_tree_for_ul($permissionAll,$permission->id,explode(',',$permission->pids));
         $nav = substr($nav,26,-5);
@@ -105,5 +122,24 @@ class BaseController extends Controller
                 'end_date' => $end_date
             ]);
         }
+    }
+
+    /**
+     * 面包屑导航
+     *
+     * @param $pids  当前路由的父导航
+     * @param $id   当前路由
+     */
+    protected function getBreadcrumb($pids,$id)
+    {
+        $ids = explode(',',$pids);
+        array_push($ids,$id);
+        $breadcrumb = Permission::whereIn('id',$ids)->get()->toArray();
+
+        $endBreadcrumb = array_pop($breadcrumb);
+        View::share([
+            'breadcrumb'=>$breadcrumb,
+            'endBreadcrumb' =>$endBreadcrumb,
+        ]);
     }
 }

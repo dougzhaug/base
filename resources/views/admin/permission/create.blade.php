@@ -13,9 +13,6 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-info">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">添加权限</h3>
-                    </div>
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form class="form-horizontal" method="POST" action="{{route('permission.store')}}">

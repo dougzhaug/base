@@ -127,7 +127,8 @@
          */
         function getButton(data,type,row)
         {
-            var html = '<a href="{{url('role/create')}}" class="btn btn-success btn-xs tables-create"><span class="glyphicon glyphicon-plus"></span>添加</a>';
+            var html = '';
+            html += '<a href="{{url('role/create')}}" class="btn btn-success btn-xs tables-create"><span class="glyphicon glyphicon-plus"></span>添加</a>';
             html += '<a href="{{url('role/edit')}}/'+data.id+'" class="btn btn-primary btn-xs tables-edit"><span class="glyphicon glyphicon-edit"></span>编辑</a>';
             html += '<a href="{{url('role/destroy')}}/'+data.id+'" class="btn btn-danger btn-xs tables-delete"><span class="glyphicon glyphicon-trash"></span>删除</a>';
             return html;

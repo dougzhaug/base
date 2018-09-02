@@ -43,8 +43,8 @@ Route::domain(config('route.domain_admin'))->group(function () {
 
     Route::get('admin/show', 'Admin\AdminController@show')->name('admin.show');
 
-    Route::get('admin/edit/{id}', 'Admin\AdminController@edit')->name('admin.edit');
-    Route::post('admin/update', 'Admin\AdminController@update')->name('admin.update');
+    Route::get('admin/edit/{admin}', 'Admin\AdminController@edit')->name('admin.edit');
+    Route::post('admin/update/{admin}', 'Admin\AdminController@update')->name('admin.update');
 
     Route::get('admin/destroy/{id}', 'Admin\AdminController@destroy')->name('admin.destroy');
     /*** 管理员管理(完) ***/

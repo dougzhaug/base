@@ -110,9 +110,8 @@ class RoleController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Role $role)
     {
@@ -163,8 +162,9 @@ class RoleController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Role $role)
     {
@@ -174,7 +174,7 @@ class RoleController extends BaseController
         }
         $result = $role->delete();
         if($result){
-            return success('编辑成功','role');
+            return success('删除成功','role');
         }else{
             return error('网络异常');
         }

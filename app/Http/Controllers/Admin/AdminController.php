@@ -108,4 +108,72 @@ class AdminController extends BaseController
     {
         return view('admin.admin.show');
     }
+
+    /**
+     * @param Admin $admin
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit(Admin $admin)
+    {
+        //
+        $roles = Role::all();
+        $admin_roles = array_column($admin->roles->toArray(),'id') ? : [];  //获取当前用户的角色
+        return view('admin.admin.edit',['admin'=>$admin,'roles'=>$roles,'admin_roles'=>$admin_roles]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Admin $admin
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, Admin $admin)
+    {
+        //
+        $this->validator($request->all(),[
+            'name' => 'required|string|max:255',
+            'phone' => ['required',new phone()],
+//            'email' => 'string|email|max:255',
+//            'password' => 'string|min:6',
+            'permissions' => 'required',
+        ]);
+
+        $update = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+        ];
+
+        if($request->password) $update['password'] = bcrypt($request->password);
+
+        $admin_result = $admin->update($update);
+
+        if(!$admin_result){
+            return error('网络异常');
+        }
+
+        $result = $admin->syncRoles($request->permissions);
+
+        if($result){
+            return success('编辑成功','admin');
+        }else{
+            return error('网络异常');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Admin $admin
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(Admin $admin)
+    {
+        $result = $admin->delete();
+        if($result){
+            return success('删除成功','role');
+        }else{
+            return error('网络异常');
+        }
+    }
 }
