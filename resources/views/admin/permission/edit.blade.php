@@ -16,7 +16,7 @@
 
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="{{route('permission.update')}}">
+                    <form class="form-horizontal" method="POST" action="{{route('permission.update',[$data['id']])}}">
 
                         {{ csrf_field() }}
 

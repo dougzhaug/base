@@ -42,7 +42,7 @@ class BaseController extends Controller
         //面包屑导航
         $this->getBreadcrumb($permission['pids'],$permission['id']);
 
-        if(in_array($this->admin->id,[101])){       //总管理员
+        if(in_array($this->admin->name,['admin'])){       //总管理员
             $permissionAll = Permission::where(['is_nav'=>1])->orderBy('sort','desc')->get();
         }else{
             $pAll = $this->admin->getAllPermissions();

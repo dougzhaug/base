@@ -54,16 +54,24 @@ class PermissionController extends BaseController
             'name' => ['required','unique:permissions'],
         ]);
 
+        $pids = '';
+        if($request->pid){
+            //获取所有父id
+            getPids($request->pid,$pids);
+            $pids = implode(',',$pids);
+        }
+
         $create = [
             'name' => $request->name,
             'pid' => $request->pid ? : 0,
+            'pids' => $pids,
             'url' => $request->url ? : '',
             'route' => $request->route ? : '',
-            'icon' => $request->icon ? : 'fa-retweet',
+            'icon' => $request->icon ? : 'fa fa-circle-o',
             'sort' => $request->sort ? : 0,
             'is_nav' => $request->is_nav ? 1 : 0,
         ];
-
+        dd($create);die;
         $permission = Permission::create($create);
 
 
@@ -91,14 +99,14 @@ class PermissionController extends BaseController
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Permission $permission)
     {
         //
-        $data = Permission::find($id);
+        $data = $permission;
 
         $all = Permission::orderBy('sort','desc')->get();
 
-        $permission = make_option_tree_for_select($all,$data['pid']);
+        $permission = make_option_tree_for_select($all,$permission['pid']);
 
         return view('admin.permission.edit',['data'=>$data,'permission'=>$permission]);
     }
@@ -116,12 +124,21 @@ class PermissionController extends BaseController
         $this->validate($request, [
             'name' => ['required'],
         ]);
+
+        $pids = '';
+        if($request->pid){
+            //获取所有父id
+            getPids($request->pid,$pids);
+            $pids = implode(',',$pids);
+        }
+
         $update = [
             'name' => $request->name,
             'pid' => $request->pid ? : 0,
+            'pids' => $pids,
             'url' => $request->url ? : '',
             'route' => $request->route ? : '',
-            'icon' => $request->icon ? : 'fa-retweet',
+            'icon' => $request->icon ? : 'fa fa-circle-o',
             'sort' => $request->sort ? : 0,
             'is_nav' => $request->is_nav ? 1 : 0,
         ];

@@ -55,8 +55,8 @@
                                         {{--<a href=""><span class="glyphicon glyphicon-trash"></span></a>--}}
 
                                         <a href="{{route('permission.create',['pid'=>$v['id']])}}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span>添加</a>
-                                        <a href="{{route('permission.edit',['id'=>$v['id']])}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span>编辑</a>
-                                        <a href="{{route('permission.destroy',['id'=>$v['id']])}}" onclick="if(confirm('确认要删除吗？')==false)return false;" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span>删除</a>
+                                        <a href="{{route('permission.edit',[$v['id']])}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span>编辑</a>
+                                        <a href="{{route('permission.destroy',[$v['id']])}}" onclick="if(confirm('确认要删除吗？')==false)return false;" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span>删除</a>
 
                                     </td>
                                 </tr>

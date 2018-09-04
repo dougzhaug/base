@@ -76,10 +76,10 @@ Route::domain(config('route.domain_admin'))->group(function () {
     Route::get('permission/create/{pid?}', 'Admin\PermissionController@create')->name('permission.create');
     Route::post('permission/store', 'Admin\PermissionController@store')->name('permission.store');
 
-    Route::get('permission/edit/{id}', 'Admin\PermissionController@edit')->name('permission.edit');
-    Route::post('permission/update', 'Admin\PermissionController@update')->name('permission.update');
+    Route::get('permission/edit/{permission}', 'Admin\PermissionController@edit')->name('permission.edit');
+    Route::post('permission/update/{permission}', 'Admin\PermissionController@update')->name('permission.update');
 
-    Route::get('permission/destroy/{id}', 'Admin\PermissionController@destroy')->name('permission.destroy');
+    Route::get('permission/destroy/{permission}', 'Admin\PermissionController@destroy')->name('permission.destroy');
 
     Route::post('permission/sort', 'Admin\PermissionController@sort')->name('permission.sort');
     /*** 权限管理(完) ***/

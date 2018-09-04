@@ -192,3 +192,24 @@ if (! function_exists('error')) {
         return redirect('prompt')->with(['message'=>$message?:'失败','url' =>$url?:'javascript:history.back(-1);', 'wait_time'=>$time,'status'=>'error']);
     }
 }
+
+if (! function_exists('getPids')) {
+    /**
+     * 失败提示页面
+     *
+     * @param $url
+     * @param bool $message
+     * @param int $time
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    function getPids($pid,&$pids)
+    {
+        $pids = $pids?:[];
+        $permission = \App\Models\Permission::where('id',$pid)->first();
+        $pids[] = $permission['id'];
+        if($permission['pid'] != 0){
+            getPids($permission['pid'],$pids);
+        }
+        return $permission['id'];
+    }
+}
