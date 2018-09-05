@@ -53,7 +53,7 @@
                                 <div class="col-sm-8" style="padding: 10px; border:1px solid #96c2f1;background:#eff7ff; width: 50%;">
 
                                     {{--JsTree插件--}}
-                                    @include('admin.block.js_tree',['url'=>route('role.get_permissions',[$role['id']]),'name'=>'permissions'])
+                                    @include('slot.js_tree',['url'=>route('role.get_permissions',[$role['id']]),'name'=>'permissions'])
 
                                     @if ($errors->has('permissions'))
                                         <span class="help-block">

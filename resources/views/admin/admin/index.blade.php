@@ -11,10 +11,10 @@
                         <form id="formSearch" class="form-horizontal" method="POST" action="{{route('admin')}}">
 
                             {{--多功能输入框--}}
-                            @include('admin.block.input_group')
+                            @include('slot.input_group')
 
                             {{--时间选择器--}}
-                            @include('admin.block.date_range')
+                            @include('slot.date_range')
 
                             <div class="search-input col-sm-1">
                                 <button type="button" onclick="doSearch()" id="searchBtn" class="btn btn-block btn-info" value="查询">查询</button>
@@ -42,7 +42,7 @@
                             <tbody>
 
                                 {{--DataTables插件--}}
-                                @include('admin.block.data_tables')
+                                @include('slot.data_tables')
 
                             </tbody>
                             <tfoot>

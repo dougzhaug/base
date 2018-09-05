@@ -100,6 +100,17 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="permission" class="col-md-4 control-label">富文本框</label>
+                                <div class="col-md-8">
+
+                                    {{--CK-Editor5 富文本框--}}
+                                    @include('slot.ckeditor5')
+
+                                </div>
+                            </div>
+
                             <!-- /.form-group -->
                         </div>
                         <!-- /.box-body -->
