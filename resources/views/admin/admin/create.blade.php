@@ -106,7 +106,7 @@
                                 <div class="col-md-8">
 
                                     {{--CK-Editor5 富文本框--}}
-                                    @include('slot.ckeditor5')
+                                    @include('slot.wang_editor')
 
                                 </div>
                             </div>
