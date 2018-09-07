@@ -177,6 +177,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * 图片上传插件
+         */
+        SunnyShift\Uploader\UploaderServiceProvider::class,
+
     ],
 
     /*

@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{admin_asset('bower_components/select2/dist/css/select2.min.css')}}">
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="{{admin_asset('plugins/iCheck/all.css')}}">
+    @uploader('assets')
 @endpush
 
 @section('content')
@@ -106,8 +107,8 @@
                                 <div class="col-md-8">
 
                                     {{--CK-Editor5 富文本框--}}
-                                    @include('slot.wang_editor')
-
+{{--                                    @include('slot.wang_editor')--}}
+                                    @uploader(['name' => 'avatar', 'max' => 3, 'accept' => 'jpg,png,gif'])
                                 </div>
                             </div>
 
