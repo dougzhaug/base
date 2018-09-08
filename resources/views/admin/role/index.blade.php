@@ -19,7 +19,9 @@
                         </form>
 
                         <div class="box-tools">
-                            <button type="button" href="{{route('role.create')}}" class="btn bg-olive margin">添加角色</button>
+                            @can('添加角色')
+                                <button type="button" href="{{route('role.create')}}" class="btn bg-olive margin">添加角色</button>
+                            @endcan
                         </div>
                     </div>
 
@@ -73,8 +75,13 @@
          */
         function getButton(data,type,row)
         {
-            var html = '<a href="{{url('role/edit')}}/'+data.id+'" data-id="'+ data.id +'" data-name="'+ data.name +'" class="btn btn-primary btn-xs tables-edit"><span class="glyphicon glyphicon-edit"></span>编辑</a>';
-                html += '<a href="{{url('role/destroy')}}/'+data.id+'" data-id="'+ data.created_at +'" class="btn btn-danger btn-xs tables-delete"><span class="glyphicon glyphicon-trash"></span>删除</a>';
+            var html = '';
+                @can('修改角色')
+                    html += '<a href="{{url('role/edit')}}/'+data.id+'" data-id="'+ data.id +'" data-name="'+ data.name +'" class="btn btn-primary btn-xs tables-edit"><span class="glyphicon glyphicon-edit"></span>编辑</a>';
+                @endcan
+                @can('删除角色')
+                    html += '<a href="{{url('role/destroy')}}/'+data.id+'" data-id="'+ data.created_at +'" class="btn btn-danger btn-xs tables-delete"><span class="glyphicon glyphicon-trash"></span>删除</a>';
+                @endcan
             return html;
         }
 

@@ -71,9 +71,8 @@ class PermissionController extends BaseController
             'sort' => $request->sort ? : 0,
             'is_nav' => $request->is_nav ? 1 : 0,
         ];
-        dd($create);die;
-        $permission = Permission::create($create);
 
+        $permission = Permission::create($create);
 
         if($permission){
             return success('添加成功','permission');

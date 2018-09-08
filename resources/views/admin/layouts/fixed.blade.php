@@ -251,11 +251,13 @@
                 <small>{{$endBreadcrumb['remark'] or ''}}</small>
             </h1>
             <ol class="breadcrumb">
-                @foreach($breadcrumb as $item)
-                    <li><a href="{{$item['route'] ? route($item['route']) : 'javascript:void(0)'}}"><i class="{{$item['icon']}}"></i>{{$item['name']}}</a></li>
-                @endforeach
+                @if(isset($breadcrumb))
+                    @foreach($breadcrumb as $item)
+                        <li><a href="{{$item['route'] ? route($item['route']) : 'javascript:void(0)'}}"><i class="{{$item['icon']}}"></i>{{$item['name']}}</a></li>
+                    @endforeach
 
-                <li class="active">{{$endBreadcrumb['name']}}</li>
+                    <li class="active">{{$endBreadcrumb['name']}}</li>
+                @endif
             </ol>
         </section>
 

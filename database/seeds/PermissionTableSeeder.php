@@ -183,6 +183,20 @@ class PermissionTableSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
+            [
+                'id' => 205,
+                'name' => '获取权限节点',
+                'guard_name' => 'admin',
+                'pid' => 200,
+                'pids' => '10,200',
+                'url' => '',
+                'route' => 'role.get_permissions',
+                'sort' => 0,
+                'icon' => '',
+                'is_nav' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
             /* 权限管理 */
             [
                 'id' => 300,

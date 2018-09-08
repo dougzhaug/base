@@ -14,13 +14,14 @@ class BaseController extends Controller
 {
     protected $admin;
     protected $request;
+    protected $error;
     public function __construct(Request $request)
     {
         $this->request = $request;
         $this->middleware('auth:admin');
         $this->middleware(function ($request, $next) {      //使用中间来实现左侧导航自动加载
             $this->admin =  Auth::user();
-            $this->getNav();
+            if(!$this->getNav()) return error($this->error['msg']);
             return $next($request);
         });
         $this->setLayout();
@@ -36,10 +37,18 @@ class BaseController extends Controller
         $route = FacadesRequest::route()->getName();  //获取当前路由别名
         $permission = Permission::where('route','like','%'.$route.'%')->first();//dd($permission);die;
         if(!$permission){   //当前路由不存在
-            return error('路由异常');
+            $this->error['msg'] = '路由异常';
+            return false;
         }
 
-        //面包屑导航
+        /*
+         * 验证权限
+         */
+        if(!$this->checkPermission($permission['name'])) return false;
+
+        /*
+         * 面包屑导航
+         */
         $this->getBreadcrumb($permission['pids'],$permission['id']);
 
         if(in_array($this->admin->name,['admin'])){       //总管理员
@@ -58,6 +67,22 @@ class BaseController extends Controller
         $nav = substr($nav,26,-5);
 
         View::share('nav',rtrim($nav));
+
+        return true;
+    }
+
+    private function checkPermission($permission)
+    {
+        if(in_array($this->admin->name,['admin'])) return true;
+
+        if(in_array($permission,['首页','提示信息'])) return true;
+
+        if(!$this->admin->hasPermissionTo($permission)){
+            $this->error['msg'] = '无权限，请联系管理员';
+            return false;
+        }
+
+        return true;
     }
 
     /**
