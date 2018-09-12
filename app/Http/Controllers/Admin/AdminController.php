@@ -9,7 +9,12 @@ use Illuminate\Http\Request;
 
 class AdminController extends BaseController
 {
-    //
+
+    /**
+     * 首页
+     * @param Request $request
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
         if($request->isMethod('post')){

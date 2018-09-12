@@ -49,10 +49,10 @@ return [
          */
         'qiniu' => [
             'driver'        => 'qiniu',
-            'access_key'    => 'xxxxxxxxxxxxxxxxxx',
-            'secret_key'    => 'xxxxxxxxxxxxxxxxxx',
-            'bucket'        => 'xxxxxxxxxxxxxxxxxx',
-            'domain'        => 'xxxxxxxxxxx'
+            'access_key'    => 'pJ-fVHRCcemA4fysn8RHvEO_QLv0G_uYul6GlKzx',
+            'secret_key'    => 'hks1wDVonphLhPfcmfpVY96ugaEjvoxUOXwqDDVW',
+            'bucket'        => 'wangeditor',
+            'domain'        => 'http://qiniu-plupload.qiniudn.com/'
         ],
 
         /*
