@@ -49,10 +49,10 @@ return [
          */
         'qiniu' => [
             'driver'        => 'qiniu',
-            'access_key'    => 'pJ-fVHRCcemA4fysn8RHvEO_QLv0G_uYul6GlKzx',
-            'secret_key'    => 'hks1wDVonphLhPfcmfpVY96ugaEjvoxUOXwqDDVW',
-            'bucket'        => 'wangeditor',
-            'domain'        => 'http://qiniu-plupload.qiniudn.com/'
+            'access_key'    => '9tmBBya6RJpGzhygfqVx2VYtg0SdFPLyKy3G81fI',
+            'secret_key'    => '1bTRIIS6Be-uPzqf2hz0MMv8eFauZsB3ZBySQnRx',
+            'bucket'        => 'xmanga',
+            'domain'        => 'http://pezez1dtv.bkt.clouddn.com/'
         ],
 
         /*

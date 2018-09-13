@@ -9,7 +9,7 @@ wangEditor 除了直接使用`<script>`引用之外，还支持`AMD`和`CommonJS
 先创建`main.js`，代码为
 
 ```javascript
-require(['/wangEditor.min.js'], function (E) {
+require([wangEditor3], function (E) {
     var editor = new E('#editor')
     editor.create()
 })

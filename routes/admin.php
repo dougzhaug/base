@@ -84,5 +84,9 @@ Route::domain(config('route.domain_admin'))->group(function () {
     Route::post('permission/sort', 'Admin\PermissionController@sort')->name('permission.sort');
     /*** 权限管理(完) ***/
 
+
+    /*** 七牛云 ***/
+    Route::get('qiniuCloud/get_up_token', 'Admin\QiniuCloudController@get_up_token')->name('qiniuCloud.get_up_token');
+    Route::get('qiniuCloud/get_up_url', 'Admin\QiniuCloudController@get_up_url')->name('qiniuCloud.get_up_url');
 });
 

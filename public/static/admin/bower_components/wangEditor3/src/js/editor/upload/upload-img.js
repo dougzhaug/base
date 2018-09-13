@@ -22,7 +22,7 @@ UploadImg.prototype = {
         const customAlert = editor.config.customAlert
 
         if (debug) {
-            throw new Error('wangEditor: ' + (debugInfo || alertInfo))
+            throw new Error('wangEditor3: ' + (debugInfo || alertInfo))
         } else {
             if (customAlert && typeof customAlert === 'function') {
                 customAlert(alertInfo)

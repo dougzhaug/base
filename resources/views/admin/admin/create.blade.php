@@ -105,10 +105,10 @@
                                 <label for="permission" class="col-md-4 control-label">富文本框</label>
                                 <div class="col-md-8">
 
-                                    {{--CK-Editor5 富文本框--}}
-                                    @include('slot.wang_editor')
+                                    CK-Editor5 富文本框
+                                    @include('slot.wang_editor_3',['name'=>'text'])
 
-                                    {{--Uploader图片上传插件--}}
+                                    Uploader图片上传插件
                                     @uploader('assets')
                                     @uploader(['name' => 'avatar', 'max' => 3, 'accept' => 'jpg,png,gif'])
                                 </div>
