@@ -1,18 +1,16 @@
 @push('head')
-    @parent
     {{--全屏功能插件CSS--}}
     <link rel="stylesheet" href="{{admin_asset('bower_components/wangEditor3/release/wangEditor-fullscreen-plugin.css')}}">
 @endpush
 
 <div id="editor">
-
+    {!! $old_data or '' !!}
 </div>
 <div id="textarea-box"  style="display:none">
     <textarea id="editor-textarea" name="{{$name or 'editor'}}"></textarea>
 </div>
 
 @push('footer')
-    @parent
     {{--基础JS--}}
     <script type="text/javascript" src="{{admin_asset('bower_components/wangEditor3/release/wangEditor.min.js')}}"></script>
     {{--七牛上传JS--}}
@@ -23,7 +21,6 @@
     {{--全屏功能插件JS--}}
     <script type="text/javascript" src="{{admin_asset('bower_components/wangEditor3/release/wangEditor-fullscreen-plugin.js')}}"></script>
     <script type="text/javascript">
-        var oldData = "{{$old_data or ''}}";
 
         var E = window.wangEditor;
         var editor = new E('#editor');
@@ -41,11 +38,6 @@
         };
 
         editor.create();
-
-        //设置初始值(存在问题，无法正确回显数据)
-        if(oldData){
-            editor.txt.html(oldData);
-        }
 
         // 初始化七牛上传
         uploadInit()

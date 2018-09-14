@@ -1,5 +1,4 @@
 @push('head')
-    @parent
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{admin_asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 @endpush
@@ -83,7 +82,6 @@
 @endswitch
 
 @push('footer')
-    @parent
     <!-- date-range-picker -->
     <script src="{{admin_asset('bower_components/moment/min/moment.min.js')}}"></script>
     <script src="{{admin_asset('bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>

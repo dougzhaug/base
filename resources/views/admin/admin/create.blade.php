@@ -13,9 +13,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-info">
-                    {{--<div class="box-header with-border">--}}
-                        {{--<h3 class="box-title">添加管理员</h3>--}}
-                    {{--</div>--}}
+                    <!-- box-header -->
                     <div class="box-header ">
                     </div>
                     <!-- /.box-header -->
@@ -25,15 +23,7 @@
                         {{ csrf_field() }}
 
                         <div class="box-body">
-                            {{--<div class="form-group">--}}
-                                {{--<label class="col-sm-2 control-label">父节点</label>--}}
-                                {{--<div class="col-sm-8">--}}
-                                    {{--<select name="pid" class="form-control select2">--}}
-                                        {{--<option value="0" data-depth="1" data-ancestor_ids="">顶级</option>--}}
-                                        {{--{!!$permission!!}--}}
-                                    {{--</select>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+
                             <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-sm-4 control-label">用户名</label>
 
@@ -100,20 +90,6 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="permission" class="col-md-4 control-label">富文本框</label>
-                                <div class="col-md-8">
-
-                                    CK-Editor5 富文本框
-                                    @include('slot.wang_editor_3',['name'=>'text'])
-
-                                    Uploader图片上传插件
-                                    @uploader('assets')
-                                    @uploader(['name' => 'avatar', 'max' => 3, 'accept' => 'jpg,png,gif'])
-                                </div>
-                            </div>
-
                             <!-- /.form-group -->
                         </div>
                         <!-- /.box-body -->

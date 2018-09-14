@@ -13,9 +13,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-info">
-                    {{--<div class="box-header with-border">--}}
-                        {{--<h3 class="box-title">添加管理员</h3>--}}
-                    {{--</div>--}}
+                    <!-- box-header -->
                     <div class="box-header ">
                     </div>
                     <!-- /.box-header -->
@@ -25,15 +23,7 @@
                         {{ csrf_field() }}
 
                         <div class="box-body">
-                            {{--<div class="form-group">--}}
-                                {{--<label class="col-sm-2 control-label">父节点</label>--}}
-                                {{--<div class="col-sm-8">--}}
-                                    {{--<select name="pid" class="form-control select2">--}}
-                                        {{--<option value="0" data-depth="1" data-ancestor_ids="">顶级</option>--}}
-                                        {{--{!!$permission!!}--}}
-                                    {{--</select>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+
                             <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-sm-4 control-label">用户名</label>
 
@@ -87,17 +77,23 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group{{ $errors->has('permissions') ? ' has-error' : '' }}">
                                 <label for="permission" class="col-md-4 control-label">分配权限</label>
                                 <div class="col-md-4">
-                                    <select id="permissions" name="permissions[]" class="form-control select2" multiple="multiple" data-placeholder="可多选"
-                                            style="width: 100%;">
+                                    <select id="permissions" name="permissions[]" class="form-control select2" multiple="multiple" data-placeholder="可多选" required>
 
                                         @foreach($roles as $k=>$v)
                                             <option @if(in_array($v['id'],$admin_roles)) selected @endif value="{{$v['name']}}">{{$v['name']}}</option>
                                         @endforeach
 
                                     </select>
+
+                                    @if ($errors->has('permissions'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('permissions') }}</strong>
+                                    </span>
+                                    @endif
+
                                 </div>
                             </div>
                             <!-- /.form-group -->

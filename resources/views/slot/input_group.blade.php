@@ -1,4 +1,3 @@
-
 <div class="input-group margin search-input col-sm-3" style="float:left;margin: 0 0 0 10px;">
     <div class="input-group-btn">
         <button type="button" class="btn btn-info btn-flat input-group-btn-button">{{reset($actionField)}}</button>
@@ -21,7 +20,6 @@
 </div>
 
 @push('footer')
-    @parent
     <script>
         /**
          * 多功能搜索框，点击事件

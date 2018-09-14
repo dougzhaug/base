@@ -25,7 +25,7 @@ class CreatePermissionTables extends Migration
             $table->string('route')->default('')->comment('路由名称');
             $table->integer('sort')->default(0)->comment('排序');
             $table->string('remark')->default('')->comment('备注');
-            $table->string('icon')->default('fa-tasks')->comment('导航icon');
+            $table->string('icon')->default('fa fa-info-circle')->comment('导航icon');
             $table->tinyInteger('is_nav')->comment('是否为导航，0否 1是');
             $table->timestamps();
         });

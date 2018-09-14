@@ -67,7 +67,7 @@ class PermissionController extends BaseController
             'pids' => $pids,
             'url' => $request->url ? : '',
             'route' => $request->route ? : '',
-            'icon' => $request->icon ? : 'fa fa-circle-o',
+            'icon' => $request->icon ? : 'fa fa-info-circle',
             'sort' => $request->sort ? : 0,
             'is_nav' => $request->is_nav ? 1 : 0,
         ];
@@ -137,7 +137,7 @@ class PermissionController extends BaseController
             'pids' => $pids,
             'url' => $request->url ? : '',
             'route' => $request->route ? : '',
-            'icon' => $request->icon ? : 'fa fa-circle-o',
+            'icon' => $request->icon ? : 'fa fa-info-circle',
             'sort' => $request->sort ? : 0,
             'is_nav' => $request->is_nav ? 1 : 0,
         ];

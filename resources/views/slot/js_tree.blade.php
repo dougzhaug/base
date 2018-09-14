@@ -1,5 +1,4 @@
 @push('head')
-    @parent
     <!-- js_tree css -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/style.min.css">
 @endpush
@@ -15,7 +14,7 @@
 @endif
 
 @push('footer')
-    @parent
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/jstree.min.js"></script>
 
     <script>
@@ -35,7 +34,7 @@
                 },
                 "types" : {
                     "default" : {
-                        "icon" : "{{$default_icon or 'fa fa-dot-circle-o'}}"
+                        "icon" : "{{$default_icon or 'fa fa-info-circle'}}"
                     }
                 },
                 "plugins" : [ "checkbox","types"]

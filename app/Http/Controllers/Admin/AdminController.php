@@ -137,8 +137,8 @@ class AdminController extends BaseController
         $this->validator($request->all(),[
             'name' => 'required|string|max:255',
             'phone' => ['required',new phone()],
-//            'email' => 'string|email|max:255',
-//            'password' => 'string|min:6',
+            'email' => 'nullable|string|email|max:255',
+            'password' => 'nullable|string|min:6',
             'permissions' => 'required',
         ]);
 

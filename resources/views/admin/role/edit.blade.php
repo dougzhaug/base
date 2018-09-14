@@ -57,8 +57,8 @@
 
                                     @if ($errors->has('permissions'))
                                         <span class="help-block">
-                                        <strong>{{ $errors->first('permissions') }}</strong>
-                                    </span>
+                                            <strong>{{ $errors->first('permissions') }}</strong>
+                                        </span>
                                     @endif
                                 </div>
                             </div>

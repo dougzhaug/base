@@ -190,13 +190,25 @@ class RoleController extends BaseController
     public function get_permissions(Request $request,Role $role)
     {
         if($request->ajax()){
-            $permissionAll = Permission::all(['id','name as text','pid','icon']);
+            $permissionAll = Permission::all(['id','name as text','pid','icon','pids']);
 
-            if($role){     //编辑
+            //处理系统中必须的权限（例如，消息提示页面）
+            foreach ($permissionAll as $key=>$val){
+                if(in_array(400,explode(',',$val['pids'])) || $val['id'] == 400){
+                    /*
+                     * opened 展开
+                     * disabled 禁用
+                     * selected 选中
+                     */
+                    $permissionAll[$key]['state'] = ['opened'=>false,'disabled'=>true,'selected'=>true];
+                }
+            }
+
+            if($role){     //编辑状态
                 $rolePermissions = explode(',',$role->js_tree_ids);        //获取角色的权限id
                 foreach ($permissionAll as $k=>$v){
                     if(in_array($v['id'],$rolePermissions)){
-                        $v['state'] = ['selected'=>true];
+                        $v['state'] = array_merge($v['state']?:[],['selected'=>true]);
                     }
                 }
             }
