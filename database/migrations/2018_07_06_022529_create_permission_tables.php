@@ -81,6 +81,13 @@ class CreatePermissionTables extends Migration
 
             app('cache')->forget('spatie.permission.cache');
         });
+
+        Schema::create($tableNames['route_has_permissions'], function (Blueprint $table) use ($tableNames) {
+            $table->unsignedInteger('permission_id');
+            $table->string('route');
+
+            $table->primary(['permission_id', 'route']);
+        });
     }
 
     /**
@@ -92,6 +99,7 @@ class CreatePermissionTables extends Migration
     {
         $tableNames = config('permission.table_names');
 
+        Schema::drop($tableNames['route_has_permissions']);
         Schema::drop($tableNames['role_has_permissions']);
         Schema::drop($tableNames['model_has_roles']);
         Schema::drop($tableNames['model_has_permissions']);

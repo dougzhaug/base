@@ -282,6 +282,7 @@ class PermissionTableSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
+            /* 默认选中项 */
             [
                 'id' => 400,
                 'name' => '默认选中项',

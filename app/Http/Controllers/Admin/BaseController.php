@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Permission;
+use App\Models\RouteHasPermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -35,11 +36,13 @@ class BaseController extends Controller
     private function getNav()
     {
         $route = FacadesRequest::route()->getName();  //获取当前路由别名
-        $permission = Permission::where('route','like','%'.$route.'%')->first();//dd($permission);die;
-        if(!$permission){   //当前路由不存在
+        $route_has_permission = RouteHasPermission::where('route',$route)->first();
+        if(!$route_has_permission){   //当前路由不存在
             $this->error['msg'] = '路由异常';
             return false;
         }
+
+        $permission = $route_has_permission->permission;
 
         /*
          * 验证权限

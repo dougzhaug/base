@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
 use App\Models\Permission;
+use App\Models\RouteHasPermission;
 use Illuminate\Http\Request;
 
 class PermissionController extends BaseController
@@ -75,6 +76,7 @@ class PermissionController extends BaseController
         $permission = Permission::create($create);
 
         if($permission){
+            RouteHasPermission::updateRouteHasPermission($permission->id,$request->route);
             return success('添加成功','permission');
         }else{
             return error('网络异常');
@@ -143,6 +145,8 @@ class PermissionController extends BaseController
         ];
         $permission = Permission::where(['id'=>$request->id])->update($update);
         if($permission){
+
+            RouteHasPermission::updateRouteHasPermission($request->id,$request->route);
             return success('修改成功','permission');
         }else{
             return error('网络异常');
