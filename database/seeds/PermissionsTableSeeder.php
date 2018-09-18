@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-class PermissionTableSeeder extends Seeder
+
+class PermissionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
