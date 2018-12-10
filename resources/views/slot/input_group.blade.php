@@ -15,7 +15,7 @@
         @endif
     </div>
 
-    <input type="hidden" id="action_field" name="{{$action_field or 'action_field'}}" value="{{array_keys($actionField)[0]}}">
+    <input type="hidden" id="action_field" name="{{$action_field or 'action_field'}}" value="{{key($actionField)}}">
     <input type="text" class="form-control" name="{{$keyword or 'keyword'}}">
 </div>
 
