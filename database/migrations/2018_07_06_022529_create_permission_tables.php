@@ -14,19 +14,20 @@ class CreatePermissionTables extends Migration
     public function up()
     {
         $tableNames = config('permission.table_names');
+        $columnNames = config('permission.column_names');
 
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->comment('权限规则');
             $table->string('guard_name');
             $table->integer('pid')->default(0)->comment('父id');
-            $table->string('pids')->default('')->comment('所有父id');
-            $table->string('url')->default('')->comment('导航跳转地址');
-            $table->string('route')->default('')->comment('路由名称');
-            $table->integer('sort')->default(0)->comment('排序');
-            $table->string('remark')->default('')->comment('备注');
-            $table->string('icon')->default('fa fa-info-circle')->comment('导航icon');
-            $table->tinyInteger('is_nav')->comment('是否为导航，0否 1是');
+            $table->string('url')->default('')->nullable()->comment('导航跳转地址');
+            $table->string('title')->default('')->comment('名称');
+            $table->integer('sort')->default(0)->nullable()->comment('排序');
+            $table->string('remark')->default('')->nullable()->comment('备注');
+            $table->string('icon')->default('fa fa-info-circle')->nullable()->comment('导航icon');
+            $table->tinyInteger('is_nav')->default(1)->nullable()->comment('是否为导航，0否 1是');
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -35,32 +36,41 @@ class CreatePermissionTables extends Migration
             $table->string('name');
             $table->string('guard_name');
             $table->string('depict')->comment('描述');
+            $table->tinyInteger('status')->default(1)->nullable()->comment('状态 0禁用 1启用');
             $table->text('js_tree_ids')->comment('存储生成jsTree结构的数据');
             $table->timestamps();
         });
 
-        Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames) {
+        Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->unsignedInteger('permission_id');
-            $table->morphs('model');
+
+            $table->string('model_type');
+            $table->unsignedBigInteger($columnNames['model_morph_key']);
+            $table->index([$columnNames['model_morph_key'], 'model_type', ]);
 
             $table->foreign('permission_id')
                 ->references('id')
                 ->on($tableNames['permissions'])
                 ->onDelete('cascade');
 
-            $table->primary(['permission_id', 'model_id', 'model_type'], 'model_has_permissions_permission_model_type_primary');
+            $table->primary(['permission_id', $columnNames['model_morph_key'], 'model_type'],
+                'model_has_permissions_permission_model_type_primary');
         });
 
-        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames) {
+        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->unsignedInteger('role_id');
-            $table->morphs('model');
+
+            $table->string('model_type');
+            $table->unsignedBigInteger($columnNames['model_morph_key']);
+            $table->index([$columnNames['model_morph_key'], 'model_type', ]);
 
             $table->foreign('role_id')
                 ->references('id')
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
 
-            $table->primary(['role_id', 'model_id', 'model_type']);
+            $table->primary(['role_id', $columnNames['model_morph_key'], 'model_type'],
+                'model_has_roles_role_model_type_primary');
         });
 
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
@@ -79,14 +89,9 @@ class CreatePermissionTables extends Migration
 
             $table->primary(['permission_id', 'role_id']);
 
-            app('cache')->forget('spatie.permission.cache');
-        });
-
-        Schema::create($tableNames['route_has_permissions'], function (Blueprint $table) use ($tableNames) {
-            $table->unsignedInteger('permission_id');
-            $table->string('route');
-
-            $table->primary(['permission_id', 'route']);
+            app('cache')
+                ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
+                ->forget(config('permission.cache.key'));
         });
     }
 
@@ -99,7 +104,6 @@ class CreatePermissionTables extends Migration
     {
         $tableNames = config('permission.table_names');
 
-        Schema::drop($tableNames['route_has_permissions']);
         Schema::drop($tableNames['role_has_permissions']);
         Schema::drop($tableNames['model_has_roles']);
         Schema::drop($tableNames['model_has_permissions']);

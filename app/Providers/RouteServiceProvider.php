@@ -35,14 +35,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
-
-        $host = explode('.',isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '');
-
-        switch ($host[0]){      //处理子域名单独加载路由文件
+        switch (sld()){
+            case 'api':
+                $this->mapApiRoutes();
+                break;
             case 'admin':
                 $this->mapAdminRoutes();
-            break;
+                break;
+            case 'www':
+                $this->mapWebRoutes();
+                break;
             default:
                 $this->mapWebRoutes();
         }
@@ -57,9 +59,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+        Route::domain('www.' . config('app.tld'))
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -71,7 +74,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapAdminRoutes()
     {
-        Route::middleware('admin')
+        Route::domain('admin.' . config('app.tld'))
+            ->middleware('admin')
             ->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
     }
@@ -85,9 +89,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+        Route::domain('api.' . config('app.tld'))
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 }

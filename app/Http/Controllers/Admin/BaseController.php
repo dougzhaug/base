@@ -19,73 +19,8 @@ class BaseController extends Controller
     public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->middleware('auth:admin');
-        $this->middleware(function ($request, $next) {      //使用中间来实现左侧导航自动加载
-            $this->admin =  Auth::user();
-            if(!$this->getNav()) return error($this->error['msg']);
-            return $next($request);
-        });
         $this->setLayout();
         $this->receiveDate();
-    }
-
-    /**
-     * 导航-共享信息
-     *
-     */
-    private function getNav()
-    {
-        $route = FacadesRequest::route()->getName();  //获取当前路由别名
-        $route_has_permission = RouteHasPermission::where('route',$route)->first();
-        if(!$route_has_permission){   //当前路由不存在
-            $this->error['msg'] = '路由异常';
-            return false;
-        }
-
-        $permission = $route_has_permission->permission;
-
-        /*
-         * 验证权限
-         */
-        if(!$this->checkPermission($permission['name'])) return false;
-
-        /*
-         * 面包屑导航
-         */
-        $this->getBreadcrumb($permission['pids'],$permission['id']);
-
-        if(in_array($this->admin->name,['admin'])){       //总管理员
-            $permissionAll = Permission::where(['is_nav'=>1])->orderBy('sort','desc')->get();
-        }else{
-            $pAll = $this->admin->getAllPermissions();
-            $permissionAll = [];
-            foreach ($pAll as $v){
-                if($v['is_nav']){
-                    $permissionAll[] = $v;
-                }
-            }
-        }
-
-        $nav = make_li_tree_for_ul($permissionAll,$permission->id,explode(',',$permission->pids));
-        $nav = substr($nav,26,-5);
-
-        View::share('nav',rtrim($nav));
-
-        return true;
-    }
-
-    private function checkPermission($permission)
-    {
-        if(in_array($this->admin->name,['admin'])) return true;
-
-        if(in_array($permission,['首页','提示信息'])) return true;
-
-        if(!$this->admin->hasPermissionTo($permission)){
-            $this->error['msg'] = '无权限，请联系管理员';
-            return false;
-        }
-
-        return true;
     }
 
     /**

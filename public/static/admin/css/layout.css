@@ -1,7 +1,11 @@
 
 
 .search-input{
-    float:left;
+    float:left!important;
     /*margin: 0 0 0 0;*/
     margin-left: 5px!important;
+}
+
+.box-label{
+    padding: 10px 10px 10px 15px;
 }

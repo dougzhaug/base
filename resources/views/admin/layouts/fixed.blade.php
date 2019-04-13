@@ -17,13 +17,16 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{admin_asset('bower_components/Ionicons/css/ionicons.min.css')}}">
 
-    @stack('head')
+    @stack('link')
 
     <!-- Theme style -->
     <link rel="stylesheet" href="{{admin_asset('dist/css/AdminLTE.min.css')}}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{admin_asset('dist/css/skins/_all-skins.min.css')}}">
+
+    <!--alerts CSS -->
+    <link href="{{admin_asset('bower_components/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css">
 
     {{--自定义CSS--}}
     <link rel="stylesheet" href="{{admin_asset('css/layout.css')}}">
@@ -183,7 +186,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="{{route('logout')}}" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{{url('logout')}}" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -229,8 +232,8 @@
                 <li class="header">MAIN NAVIGATION</li>
 
                 @auth
-                    @isset($nav)
-                        {!! $nav !!}
+                    @isset($menu)
+                        {!! $menu !!}
                     @endisset
                 @endauth
 
@@ -243,6 +246,10 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+        {{--信息提示--}}
+        @include('layouts.notification.error')
+        @include('layouts.notification.success')
+        @include('layouts.notification.warning')
 
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -265,36 +272,48 @@
 
             <!-- Main content -->
             <section class="content">
-                <div class="callout callout-info">
-                    <h4>Tip!</h4>
-
-                    <p>Add the fixed class to the body tag to get this layout. The fixed layout is your best option if your sidebar
-                        is bigger than your content because it prevents extra unwanted scrolling.</p>
-                </div>
-                <!-- Default box -->
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Title</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-minus"></i></button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                <i class="fa fa-times"></i></button>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            @section('box')
+                            @show
                         </div>
                     </div>
-                    <div class="box-body">
-                        Start creating your amazing application!
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        Footer
-                    </div>
-                    <!-- /.box-footer-->
                 </div>
-                <!-- /.box -->
-
             </section>
+
+            {{--<!-- Main content -->--}}
+            {{--<section class="content">--}}
+                {{--<div class="callout callout-info">--}}
+                    {{--<h4>Tip!</h4>--}}
+
+                    {{--<p>Add the fixed class to the body tag to get this layout. The fixed layout is your best option if your sidebar--}}
+                        {{--is bigger than your content because it prevents extra unwanted scrolling.</p>--}}
+                {{--</div>--}}
+                {{--<!-- Default box -->--}}
+                {{--<div class="box">--}}
+                    {{--<div class="box-header with-border">--}}
+                        {{--<h3 class="box-title">Title</h3>--}}
+
+                        {{--<div class="box-tools pull-right">--}}
+                            {{--<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">--}}
+                                {{--<i class="fa fa-minus"></i></button>--}}
+                            {{--<button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">--}}
+                                {{--<i class="fa fa-times"></i></button>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="box-body">--}}
+                        {{--Start creating your amazing application!--}}
+                    {{--</div>--}}
+                    {{--<!-- /.box-body -->--}}
+                    {{--<div class="box-footer">--}}
+                        {{--Footer--}}
+                    {{--</div>--}}
+                    {{--<!-- /.box-footer-->--}}
+                {{--</div>--}}
+                {{--<!-- /.box -->--}}
+
+            {{--</section>--}}
         @show
         <!-- /.content -->
     </div>
@@ -509,7 +528,11 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="{{admin_asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 
-@stack('footer')
+<!-- Sweet-Alert  -->
+<script src="{{admin_asset('bower_components/sweetalert/sweetalert.min.js')}}"></script>
+<script src="{{admin_asset('bower_components/sweetalert/jquery.sweet-alert.custom.js')}}"></script>
+
+@stack('script')
 
 <!-- SlimScroll -->
 <script src="{{admin_asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>

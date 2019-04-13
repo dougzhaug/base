@@ -1,6 +1,6 @@
 @extends($layout)
 
-@push('head')
+@push('link')
     <!-- Select2 -->
     <link rel="stylesheet" href="{{admin_asset('bower_components/select2/dist/css/select2.min.css')}}">
     <!-- iCheck for checkboxes and radio inputs -->
@@ -113,7 +113,7 @@
     </section>
 @endsection
 
-@push('footer')
+@push('script')
     <!-- Select2 -->
     <script src="{{admin_asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
     <!-- iCheck 1.0.1 -->

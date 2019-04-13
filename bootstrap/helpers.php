@@ -28,19 +28,87 @@ function make_tree($arr) {
         function make_tree1($arr, $parent_id = 0) {
             $new_arr = array();
             foreach ($arr as $k => $v) {
-                if ($v->pid == $parent_id) {
+                if ($v['pid'] == $parent_id) {
                     $new_arr[] = $v;
                     unset($arr[$k]);
                 }
             }
             foreach ($new_arr as &$a) {
-                $a->children = make_tree1($arr, $a->id);
+                $a['children'] = make_tree1($arr, $a['id']);
             }
             return $new_arr;
         }
 
     }
     return make_tree1($arr);
+}
+
+/**
+ * 生成带前缀的树状结构数据
+ *
+ * @param $arr
+ * @return array
+ */
+function make_tree_with_name_pre($arr) {
+    $arr = make_tree($arr);
+
+    if (!function_exists('makeTreeWithNamePre')) {
+        function makeTreeWithNamePre($arr, $prestr = '') {
+            $new_arr = array();
+            foreach ($arr as $v) {
+                if ($prestr) {
+                    if ($v == end($arr)) {
+                        $v->name = $prestr . '└─ ' . $v->name;
+                    } else {
+                        $v->name = $prestr . '├─ ' . $v->name;
+                    }
+                }
+
+                if ($prestr == '') {
+                    $prestr_for_children = '&nbsp;&nbsp;';
+                } else {
+                    if ($v == end($arr)) {
+                        $prestr_for_children = $prestr . '&nbsp;&nbsp;&nbsp;&nbsp;';
+                    } else {
+                        $prestr_for_children = $prestr . '│ ';
+                    }
+                }
+                $v->children = makeTreeWithNamePre($v->children, $prestr_for_children);
+
+                $new_arr[] = $v;
+            }
+            return $new_arr;
+        }
+    }
+    return makeTreeWithNamePre($arr);
+}
+
+/**
+ * 变成树状结构数组
+ *
+ * @param $arr
+ * @return array
+ */
+function make_tree_to_array($arr) {
+    $tree = make_tree_with_name_pre($arr);
+
+    if (!function_exists('makeTreeToArray')) {
+        function makeTreeToArray($tree){
+            static $new_tree = [];
+            foreach ($tree as $key=>$val){
+                if (isset($val['children']) && $val['children']){
+                    $children = $val['children'];
+                    unset($val['children']);
+                    $new_tree[] = $val;
+                    makeTreeToArray($children);
+                }else{
+                    $new_tree[] = $val;
+                }
+            }
+            return $new_tree;
+        }
+    }
+    return makeTreeToArray($tree);
 }
 
 //配合下面方法用   不需直接调用
@@ -123,7 +191,7 @@ function make_option_tree_for_select($arr, $default, $depth = 0) {
  */
 function make_li_tree_for_ul($arr, $default,$pid, $depth = 0)
 {
-    $arr = make_tree($arr);//dd($arr);die;
+    $arr = make_tree($arr);
     if(!function_exists('make_li')){
         function make_li($arr,$default,$pids)
         {
@@ -163,18 +231,75 @@ function make_li_tree_for_ul($arr, $default,$pid, $depth = 0)
     return make_li($arr,$default,$pid);
 }
 
+
+if (!function_exists('is_assoc')){
+    /**
+     * 判断是否为索引数组
+     *
+     * @param $arr
+     * @return bool
+     */
+    function is_assoc($arr)
+    {
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+}
+
+/**
+ * 生成导航
+ *
+ * @param $arr
+ * @return string
+ */
+function make_menu($arr)
+{
+    $arr = make_tree($arr);
+//dump($arr);die;
+    if (!function_exists('treeToArray')) {
+        function makeLeftMenu($arr){
+            $html = '';
+            foreach ($arr as $val){
+
+                try{
+                    $href= route($val['name']);
+                }catch (Exception $e){
+                    $href = url($val['url']??'/');
+                }
+
+                if(empty($val['children'])){
+                    $html .= '<li class="left-nav-li" id="nav-'.$val['id'].'"><a href="'. $href .'"><i class="fa ' . $val["icon"] . '"></i><span> '.$val["title"].' </span></a></li>';
+                }else{
+                    $html .= '<li class="treeview"><a href="' . $href . '"><i class="fa ' . $val["icon"] . '"></i> <span>' . $val['title'] . '</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
+                    $html .= '<ul class="treeview-menu">';
+                    $html .= makeLeftMenu($val['children']);
+                    $html .= '</ul>';
+                    $html .= '</li>';
+                }
+            }
+            return $html; //? '<ul class="treeview-menu">'.$html.'</ul>' : $html ;
+        }
+
+    }
+    return makeLeftMenu($arr);
+}
+
 if (! function_exists('success')) {
     /**
      * 成功提示页面
      *
-     * @param $url
-     * @param bool $message
-     * @param int $time
-     * @return \Illuminate\Http\RedirectResponse
+     * @param $message
+     * @param bool $url
+     * @param int $expire
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    function success($message,$url=false,$time=3)
+    function success($message,$url=false,$expire=3)
     {
-        return redirect('prompt')->with(['message'=>$message?:'成功','url' =>$url?:$_SERVER["HTTP_REFERER"], 'wait_time'=>$time,'status'=>'success']);
+        $message = [$message,$expire * 1000];
+        if($url){
+            return redirect($url)->withErrors($message, 'success');
+        }else{
+            return back()->withErrors($message, 'success');
+        }
     }
 }
 
@@ -187,9 +312,14 @@ if (! function_exists('error')) {
      * @param int $time
      * @return \Illuminate\Http\RedirectResponse
      */
-    function error($message,$url=false,$time=3)
+    function error($message,$url=false,$expire=3)
     {
-        return redirect('prompt')->with(['message'=>$message?:'失败','url' =>$url?:'javascript:history.back(-1);', 'wait_time'=>$time,'status'=>'error']);
+        $message = [$message,$expire * 1000];
+        if($url){
+            return redirect($url)->withErrors($message, 'error');
+        }else{
+            return back()->withErrors($message, 'error');
+        }
     }
 }
 
@@ -211,5 +341,20 @@ if (! function_exists('getPids')) {
             getPids($permission['pid'],$pids);
         }
         return $permission['id'];
+    }
+}
+
+if (!function_exists('sld'))
+{
+    /**
+     * 获取二级域名（子域名）
+     *
+     * @return mixed
+     */
+    function sld(){
+
+        preg_match("#(http|https)://(.*?)\.#i",request()->url(),$match);
+
+        return $match[2]??'';
     }
 }
