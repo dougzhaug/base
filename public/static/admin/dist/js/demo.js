@@ -351,6 +351,17 @@ $(function () {
     setup()
 
     $('[data-toggle="tooltip"]').tooltip()
+
+    //Flat red color scheme for iCheck(复选框和单选框样式)
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+        checkboxClass: 'icheckbox_flat-blue',
+        radioClass   : 'iradio_flat-blue'
+    })
+
+    // To make Pace works on Ajax calls
+    $(document).ajaxStart(function () {
+        Pace.restart()
+    })
 })
 
 /********************************  公共方法  *********************************/

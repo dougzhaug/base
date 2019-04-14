@@ -19,6 +19,9 @@
 
     @stack('link')
 
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{{admin_asset('plugins/iCheck/all.css')}}">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="{{admin_asset('dist/css/AdminLTE.min.css')}}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -27,6 +30,9 @@
 
     <!--alerts CSS -->
     <link href="{{admin_asset('bower_components/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css">
+
+    <!-- Pace style -->
+    <link rel="stylesheet" href="{{admin_asset('plugins/pace/pace.min.css')}}">
 
     {{--自定义CSS--}}
     <link rel="stylesheet" href="{{admin_asset('css/layout.css')}}">
@@ -254,18 +260,18 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                {{$endBreadcrumb['name'] or ''}}
+                {{$breadcrumb or ''}}
                 <small>{{$endBreadcrumb['remark'] or ''}}</small>
             </h1>
-            <ol class="breadcrumb">
-                @if(isset($breadcrumb))
-                    @foreach($breadcrumb as $item)
-                        <li><a href="{{$item['route'] ? route($item['route']) : 'javascript:void(0)'}}"><i class="{{$item['icon']}}"></i>{{$item['name']}}</a></li>
-                    @endforeach
+            {{--<ol class="breadcrumb">--}}
+                {{--@if(isset($breadcrumb))--}}
+                    {{--@foreach($breadcrumb as $item)--}}
+                        {{--<li><a href="{{$item['route'] ? route($item['route']) : 'javascript:void(0)'}}"><i class="{{$item['icon']}}"></i>{{$item['name']}}</a></li>--}}
+                    {{--@endforeach--}}
 
-                    <li class="active">{{$endBreadcrumb['name']}}</li>
-                @endif
-            </ol>
+                    {{--<li class="active">{{$endBreadcrumb['name']}}</li>--}}
+                {{--@endif--}}
+            {{--</ol>--}}
         </section>
 
         @section('content')
@@ -533,6 +539,12 @@
 <script src="{{admin_asset('bower_components/sweetalert/jquery.sweet-alert.custom.js')}}"></script>
 
 @stack('script')
+
+<!-- iCheck 1.0.1 -->
+<script src="{{admin_asset('plugins/iCheck/icheck.min.js')}}"></script>
+
+<!-- PACE -->
+<script src="{{admin_asset('bower_components/PACE/pace.min.js')}}"></script>
 
 <!-- SlimScroll -->
 <script src="{{admin_asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>

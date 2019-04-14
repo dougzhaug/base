@@ -18,7 +18,7 @@ class AuthController extends BaseController
         parent::__construct($request);
         $this->middleware([
             'auth:admin',
-//            'permission:admin',
+            'permission:admin',
             'menu:admin',
             'beforeRequest',
         ]);

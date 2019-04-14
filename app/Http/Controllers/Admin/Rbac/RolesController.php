@@ -73,7 +73,7 @@ class RolesController extends AuthController
         $create = [
             'name' => $request->name,
             'depict' => $request->depict ? : '',
-            'status' => $request->status ? : 0,
+            'status' => $request->status ? 1 : 0,
             'js_tree_ids' => $request->js_tree_ids,
         ];
 
@@ -125,7 +125,7 @@ class RolesController extends AuthController
         $update = [
             'name' => $request->name,
             'depict' => $request->depict ? : '',
-            'status' => $request->status ? : 0,
+            'status' => $request->status ? 1 : 0,
             'js_tree_ids' => $request->js_tree_ids,
         ];
 

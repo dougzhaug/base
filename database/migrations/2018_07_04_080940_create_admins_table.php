@@ -18,6 +18,7 @@ class CreateAdminsTable extends Migration
             $table->string('name')->comment('用户名');
             $table->string('phone')->unique()->comment('手机号');
             $table->string('email')->default('')->comment('邮箱');
+            $table->tinyInteger('status')->default(-1)->comment('状态 -1:禁用 1:启用');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

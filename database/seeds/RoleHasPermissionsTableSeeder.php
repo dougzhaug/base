@@ -14,7 +14,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         //
         $insertData = [];
 
-        $admin = [1,10,110,1100,1110,1120,1130,1140,2100,2101,2102,2103,2104,2105,2106,3100,3101,3102,3103,3104,3105];
+        $admin = [1,100,1000,1001,1002,1003,1004,1005,2000,2001,2002,2003,2004,2005,2006,3000,3001,3002,3003,3004,3005,3006];
         foreach ($admin as $value){
             $insertData[] = [
                 'permission_id' => $value,

@@ -14,7 +14,7 @@
     <link href="{{asset('static/admin/theme/min/css/animate.css')}}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{{asset('static/admin/theme/min/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('admins')}}" rel="stylesheet">
     <!-- color CSS -->
     <link href="{{asset('static/admin/theme/min/css/colors/default.css')}}" id="theme"  rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

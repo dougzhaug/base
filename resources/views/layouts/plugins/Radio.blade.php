@@ -16,6 +16,7 @@
 
         <input name="{{$name or 'radio'}}"
                id="radio{{$value}}"
+               class="flat-red"
                type="radio"
                value="{{$value}}"
                @if(
@@ -38,7 +39,6 @@
 @if(isset($level) && $level)
     </div>
 @endif
-
 
 {{--  使用说明
 

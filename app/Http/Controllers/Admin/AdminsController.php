@@ -6,8 +6,9 @@ use App\Models\Admin;
 use App\Models\Role;
 use App\Rules\phone;
 use Illuminate\Http\Request;
+use Spatie\Permission\Guard;
 
-class AdminController extends BaseController
+class AdminsController extends AuthController
 {
 
     /**
@@ -21,7 +22,7 @@ class AdminController extends BaseController
 
             $columns = $request->columns;
 
-            $builder = Admin::select(['id','name','phone','email','created_at']);
+            $builder = Admin::select(['id','name','phone','email','status','created_at']);
 
             /* where start*/
 
@@ -61,13 +62,14 @@ class AdminController extends BaseController
 
         $actionField = ['name'=>'姓名','phone'=>'手机号','email'=>'邮箱'];
         $this->setActionField($actionField);
-        return view('admin.admin.index');
+        return view('admin.admins.index');
     }
 
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.admin.create',['roles'=>$roles]);
+        $roles = Role::where(['status'=>1,'guard_name'=>Guard::getDefaultName(static::class)])
+            ->select('id','id as value','name')->get()->toArray();
+        return view('admin.admins.create',['roles'=>$roles]);
     }
 
     public function store(Request $request)
@@ -77,7 +79,7 @@ class AdminController extends BaseController
             'phone' => ['required','unique:admins',new phone()],
             'email' => 'string|email|max:255|unique:admins',
             'password' => 'required|string|min:6',
-            'permissions' => 'required',
+            'roles' => 'required',
         ]);
 
         $create = [
@@ -93,7 +95,7 @@ class AdminController extends BaseController
             return error('网络异常');
         }
 
-        $result = $admin->assignRole($request->permissions);
+        $result = $admin->assignRole($request->roles);
 
         if($result){
             return success('添加成功','admin');
@@ -111,7 +113,7 @@ class AdminController extends BaseController
      */
     public function show(Admin $admin)
     {
-        return view('admin.admin.show');
+        return view('admins.admin.show');
     }
 
     /**
@@ -120,10 +122,10 @@ class AdminController extends BaseController
      */
     public function edit(Admin $admin)
     {
-        //
-        $roles = Role::all();
+        $roles = Role::where(['status'=>1,'guard_name'=>Guard::getDefaultName(static::class)])
+            ->select('id','id as value','name')->get()->toArray();
         $admin_roles = array_column($admin->roles->toArray(),'id') ? : [];  //获取当前用户的角色
-        return view('admin.admin.edit',['admin'=>$admin,'roles'=>$roles,'admin_roles'=>$admin_roles]);
+        return view('admin.admins.edit',['admin'=>$admin,'roles'=>$roles,'admin_roles'=>$admin_roles]);
     }
 
     /**
@@ -139,7 +141,7 @@ class AdminController extends BaseController
             'phone' => ['required',new phone()],
             'email' => 'nullable|string|email|max:255',
             'password' => 'nullable|string|min:6',
-            'permissions' => 'required',
+            'roles' => 'required',
         ]);
 
         $update = [
@@ -156,7 +158,7 @@ class AdminController extends BaseController
             return error('网络异常');
         }
 
-        $result = $admin->syncRoles($request->permissions);
+        $result = $admin->syncRoles($request->roles);
 
         if($result){
             return success('编辑成功','admin');
@@ -179,6 +181,24 @@ class AdminController extends BaseController
             return success('删除成功','role');
         }else{
             return error('网络异常');
+        }
+    }
+
+
+    /**
+     * 状态切换
+     *
+     * @param Admin $admin
+     * @param Request $request
+     * @return array
+     */
+    public function status(Admin $admin,Request $request)
+    {
+        $result = $admin->update(['status'=>$request->status==1 ? -1 : 1]);
+        if($result !== false){
+            return ['errorCode'=>0,'message'=>'修改成功'];
+        }else{
+            return ['errorCode'=>1,'message'=>'网络异常'];
         }
     }
 }

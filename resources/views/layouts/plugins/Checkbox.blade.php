@@ -17,6 +17,7 @@
 
         <input name="{{$name or 'checkbox'}}[]"
                id="checkbox{{$value}}"
+               class="flat-red"
                type="checkbox"
                value="{{$value}}"
                @if(

@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Permission;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\View;
 
 class VerifyPermission
 {
@@ -24,9 +26,17 @@ class VerifyPermission
                 return response()->view('403', [], 403);
             }
         }
+
+        $this->makeBreadcrumb();
+
         return $next($request);
     }
 
+    /**
+     * 过滤route名称
+     *
+     * @return string
+     */
     private function getRouteName()
     {
         $route = Request::route()->getName();  //获取当前路由别名
@@ -42,5 +52,17 @@ class VerifyPermission
         }
 
         return $route;
+    }
+
+    /**
+     * 生成面包屑导航（初级）
+     */
+    private function makeBreadcrumb(){
+
+        $route = Request::route()->getName();
+
+        $breadcrumb = Permission::where('name',$route)->value('title');
+
+        View::share('breadcrumb',$breadcrumb);
     }
 }

@@ -21,7 +21,6 @@ class MakeMenu
         if (Auth::guard($guard)->check()) {
             $user = Auth::user();
             $permissions = $user->getAllPermissions()->toArray();
-//            dd($permissions);die;
             array_multisort(array_column($permissions,'sort'), SORT_DESC, $permissions);
             $menu = [];
             foreach ($permissions as $value){
