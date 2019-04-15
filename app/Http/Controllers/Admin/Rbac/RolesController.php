@@ -49,6 +49,7 @@ class RolesController extends AuthController
             ];
         }
 
+        $this->setDropdownFiles(['name'=>'名称']);
         return view('admin.roles.index');
     }
 

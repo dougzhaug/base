@@ -358,9 +358,24 @@ $(function () {
         radioClass   : 'iradio_flat-blue'
     })
 
-    // To make Pace works on Ajax calls
+    // To make Pace works on Ajax calls（ajax加载动作条）
     $(document).ajaxStart(function () {
         Pace.restart()
+    })
+
+    //自动展开高亮导航栏
+    $(function () {
+        var nav_id = $.cookie('nav_id');
+        if(nav_id){
+            $("#" + nav_id).addClass('active');
+            $("#" + nav_id).parents('li').addClass('active');
+        }
+    })
+
+    //导航栏点击事件
+    $('.left-nav-li').click(function () {
+        var nav_id = $(this).attr('id');
+        $.cookie('nav_id',nav_id,{ path: "/"});
     })
 })
 

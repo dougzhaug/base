@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="{{admin_asset('plugins/pace/pace.min.css')}}">
 
     {{--自定义CSS--}}
-    <link rel="stylesheet" href="{{admin_asset('css/layout.css')}}">
+    <link rel="stylesheet" href="{{admin_asset('dist/css/layout.css')}}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -534,6 +534,9 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="{{admin_asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 
+<!--jQuery Cookie-->
+<script src="{{admin_asset('bower_components/jquery/dist/jquery.cookie.js')}}"></script>
+
 <!-- Sweet-Alert  -->
 <script src="{{admin_asset('bower_components/sweetalert/sweetalert.min.js')}}"></script>
 <script src="{{admin_asset('bower_components/sweetalert/jquery.sweet-alert.custom.js')}}"></script>
@@ -552,7 +555,7 @@
 <script src="{{admin_asset('bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{admin_asset('dist/js/adminlte.min.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{admin_asset('dist/js/demo.js')}}"></script>
+<!-- AdminLTE for demo purposes(自定义js) -->
+<script src="{{admin_asset('dist/js/custom.js')}}"></script>
 </body>
 </html>

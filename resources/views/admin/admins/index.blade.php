@@ -7,7 +7,7 @@
 
             <div class="input-group margin search-input col-sm-3">
                 {{--多功能输入框--}}
-                @include('layouts.plugins.DropdownsInput',['name'=>'pid','dropdowns'=>[['name'=>'名称','value'=>'name'],['name'=>'联系电话','value'=>'phone']]])
+                @include('layouts.plugins.DropdownsInput',['dropdowns'=>$dropdowns])
             </div>
             <div class="input-group margin search-input col-sm-4">
                 <span class="input-group-btn">

@@ -7,19 +7,13 @@
 
             <div class="input-group margin search-input col-sm-3">
                 {{--多功能输入框--}}
-                @include('layouts.plugins.DropdownsInput',['dropdowns'=>[['name'=>'名称','value'=>'title'],['name'=>'电话','value'=>'phone']]])
+                @include('layouts.plugins.DropdownsInput',['dropdowns'=>$dropdowns])
             </div>
 
             <div class="input-group margin search-input">
                 <button type="button" onclick="doSearch()" id="searchBtn" class="btn btn-block btn-info" value="查询">查询</button>
             </div>
         </form>
-
-        {{--<div class="box-tools">--}}
-            {{--@can('添加角色')--}}
-                {{--<button type="button" href="{{route('roles.create')}}" class="btn bg-olive margin">添加角色</button>--}}
-            {{--@endcan--}}
-        {{--</div>--}}
     </div>
 
     <div class="box-label">

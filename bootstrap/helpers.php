@@ -267,7 +267,7 @@ function make_menu($arr)
                 }
 
                 if(empty($val['children'])){
-                    $html .= '<li class="left-nav-li" id="nav-'.$val['id'].'"><a href="'. $href .'"><i class="fa ' . $val["icon"] . '"></i><span> '.$val["title"].' </span></a></li>';
+                    $html .= '<li class="left-nav-li" id="left-nav-'.$val['id'].'"><a href="'. $href .'"><i class="fa ' . $val["icon"] . '"></i><span> '.$val["title"].' </span></a></li>';
                 }else{
                     $html .= '<li class="treeview"><a href="' . $href . '"><i class="fa ' . $val["icon"] . '"></i> <span>' . $val['title'] . '</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
                     $html .= '<ul class="treeview-menu">';

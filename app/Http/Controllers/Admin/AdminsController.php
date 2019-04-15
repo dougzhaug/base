@@ -60,8 +60,7 @@ class AdminsController extends AuthController
             ];
         }
 
-        $actionField = ['name'=>'姓名','phone'=>'手机号','email'=>'邮箱'];
-        $this->setActionField($actionField);
+        $this->setDropdownFiles(['name'=>'姓名','phone'=>'手机号','email'=>'邮箱']);
         return view('admin.admins.index');
     }
 
@@ -98,7 +97,7 @@ class AdminsController extends AuthController
         $result = $admin->assignRole($request->roles);
 
         if($result){
-            return success('添加成功','admin');
+            return success('添加成功','admins');
         }else{
             return error('网络异常');
         }
@@ -161,7 +160,7 @@ class AdminsController extends AuthController
         $result = $admin->syncRoles($request->roles);
 
         if($result){
-            return success('编辑成功','admin');
+            return success('编辑成功','admins');
         }else{
             return error('网络异常');
         }
@@ -178,7 +177,7 @@ class AdminsController extends AuthController
     {
         $result = $admin->delete();
         if($result){
-            return success('删除成功','role');
+            return success('删除成功','admins');
         }else{
             return error('网络异常');
         }
